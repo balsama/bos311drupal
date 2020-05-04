@@ -1,0 +1,59 @@
+{
+    "name": "balsama/bos311drupal",
+    "description": "Drupal project that makes Boston 311 reports more accessible.",
+    "type": "project",
+    "require": {
+        "drupal/core-recommended": "^9",
+        "drupal/core-composer-scaffold": "^9",
+        "drush/drush": "^10",
+        "composer/installers": "^1.2"
+    },
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Adam Balsam",
+            "email": "balsam.adam@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "drupal-scaffold": {
+            "locations": {
+                "web-root": "docroot/"
+            }
+        },
+        "file-mapping": {
+            "[web-root]/sites/default/default.services.yml": {
+                "mode": "replace",
+                "path": "docroot/core/assets/scaffold/files/default.services.yml",
+                "overwrite": false
+            },
+            "[web-root]/sites/default/default.settings.php": {
+                "mode": "replace",
+                "path": "docroot/core/assets/scaffold/files/default.settings.php",
+                "overwrite": false
+            }
+        },
+        "installer-paths": {
+            "docroot/core": [
+                "type:drupal-core"
+            ],
+            "docroot/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "docroot/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "docroot/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ]
+        }
+    },
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
+    }
+}

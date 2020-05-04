@@ -1,0 +1,23 @@
+uuid: 2121e876-7a6b-4a6e-9014-78bd25e5f569
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_longitide
+    - node.type.report
+id: node.report.field_longitide
+field_name: field_longitide
+entity_type: node
+bundle: report
+label: Longitide
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: float
