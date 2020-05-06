@@ -1,0 +1,3 @@
+services:
+  bos311.record:
+    class: Drupal\bos311\Record

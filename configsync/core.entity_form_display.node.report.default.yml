@@ -83,18 +83,18 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_service_request_id:
-    weight: 121
+    weight: 133
     settings:
+      size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: number
+    type: string_textfield
     region: content
   field_status:
-    weight: 122
-    settings:
-      display_label: true
+    weight: 134
+    settings: {  }
     third_party_settings: {  }
-    type: boolean_checkbox
+    type: options_select
     region: content
   field_status_notes:
     weight: 123
