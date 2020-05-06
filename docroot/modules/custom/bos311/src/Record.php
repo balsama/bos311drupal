@@ -4,7 +4,6 @@ namespace Drupal\bos311;
 
 use \Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;
-use \Drupal\file\Entity\File;
 
 class Record {
 
@@ -48,6 +47,7 @@ class Record {
   }
 
   public function create() {
+    $this->validate();
     $values = $this->gatherValues();
     $node = Node::create($values);
     $node->save();
@@ -57,7 +57,7 @@ class Record {
     $values = [];
 
     $values['type'] = 'report';
-    $values['title'] = $this->requested_datetime . ": " . substr($this->description, 0, 60);
+    $values['title'] = substr($this->description, 0, 120);
     $values['field_service_request_id'] = $this->service_request_id;
     $values['field_description'] = $this->description;
     $values['field_status_notes'] = $this->status_notes;
@@ -76,6 +76,24 @@ class Record {
     return $values;
   }
 
+  private function validate() {
+    $this->validateDateTime($this->requested_datetime);
+    if ($this->updated_datetime) {
+      $this->validateDateTime($this->updated_datetime);
+    }
+  }
+
+  /**
+   * Maps a service name to a "service" taxonomy term.
+   *
+   * @param string $service_name
+   *   The name of the service.
+   *
+   * @return int
+   *   The ID of the service name taxonmy term.
+   * @throws \Exception
+   *   If an ambiguous term is provided.
+   */
   protected function mapServiceName($service_name) {
     $term = \Drupal::entityTypeManager()
       ->getStorage('taxonomy_term')
@@ -101,7 +119,27 @@ class Record {
     $term = Term::create($values);
     $term->save();
     return $term->id();
+  }
 
+  /**
+   * Validates that a string is a valid ISO 8601 date string.
+   * @param $date
+   * @return bool
+   */
+  private function validateDateTime($date) {
+    if (preg_match('/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})Z$/', $date, $parts) == true) {
+      $time = gmmktime($parts[4], $parts[5], $parts[6], $parts[2], $parts[3], $parts[1]);
+
+      $input_time = strtotime($date);
+      if ($input_time === false) {
+        return false;
+      }
+
+      return $input_time == $time;
+    }
+    else {
+      return false;
+    }
   }
 
 }
