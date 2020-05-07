@@ -2,11 +2,12 @@
 
 namespace Drupal\bos311;
 
+use Drupal\Core\Database\IntegrityConstraintViolationException;
+use Drupal\Core\Entity\EntityStorageException;
 use \Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;
 
 class Record {
-
   protected $service_request_id;
   protected $status;
   protected $service_name;
@@ -19,51 +20,71 @@ class Record {
   protected $media_url = null;
   protected $updated_datetime = null;
 
-  public function __construct(
-    string $service_request_id,
-    string $status,
-    string $service_name,
-    string $description,
-    string $requested_datetime,
-    string $address,
-    float $latitude,
-    float $longitude,
-    string $media_url = null,
-    string $status_notes = null,
-    string $updated_datetime = null
-  )
+  /**
+   * Record constructor.
+   * @param array $rawRecord
+   */
+  public function __construct ($rawRecord)
   {
-    $this->service_request_id = $service_request_id;
-    $this->status = $status;
-    $this->service_name = $service_name;
-    $this->description = $description;
-    $this->status_notes = $status_notes;
-    $this->requested_datetime = $requested_datetime;
-    $this->address = $address;
-    $this->latitude = $latitude;
-    $this->longitude = $longitude;
-    $this->media_url = $media_url;
-    $this->updated_datetime = $updated_datetime;
+    foreach ($rawRecord as $key => $value) {
+      if ($key == 'lat') {
+        $key = 'latitude';
+      }
+      if ($key == 'long') {
+        $key = 'longitude';
+      }
+      $this->$key = $value;
+    }
   }
 
-  public function create() {
-    $this->validate();
+  /**
+   * Creates a new record or passes the record off to the update method if it already exists.
+   * @throws EntityStorageException
+   */
+  public function createRecord() {
     $values = $this->gatherValues();
+
+    $existingReport = \Drupal::service('entity.repository')->loadEntityByUuid('node', $this->service_request_id);
+    if ($existingReport) {
+      return $this->updateRecord($existingReport);
+    }
+
     $node = Node::create($values);
     $node->save();
+    return $node;
   }
 
-  protected function gatherValues() {
-    $values = [];
+  /**
+   * Makes limited updates to a record. This method will only update the Status Notes, Status, and Updated Date field.
+   */
+  protected function updateRecord($existingReport) {
 
+    $existingReport->field_status_notes = $this->status_notes;
+    $existingReport->field_updated_datetime = $this->updated_datetime;
+    $existingReport->field_status = $this->status;
+
+    $existingReport->save();
+    return $existingReport;
+  }
+
+  /**
+   * Prepares and validates the raw values from the 311 API.
+   * @return array
+   * @throws \Exception
+   */
+  protected function gatherValues() {
+    $this->validateProvidedValues();
+
+    $values = [];
+    $values['uuid'] = $this->service_request_id;
     $values['type'] = 'report';
-    $values['title'] = substr($this->description, 0, 120);
+    $values['title'] = $this->service_request_id . " - " . substr($this->description, 0, 120);
     $values['field_service_request_id'] = $this->service_request_id;
     $values['field_description'] = $this->description;
     $values['field_status_notes'] = $this->status_notes;
     $values['field_status'] = $this->status;
-    $values['field_requested_datetime'] = $this->requested_datetime;
-    $values['field_updated_datetime'] = $this->updated_datetime;
+    $values['field_requested_datetime'] = substr($this->requested_datetime, 0, 19);
+    $values['field_updated_datetime'] = substr($this->updated_datetime, 0, 19);
     $values['field_address'] = $this->address;
     $values['field_latitude'] = $this->latitude;
     $values['field_longitide'] = $this->longitude;
@@ -76,10 +97,39 @@ class Record {
     return $values;
   }
 
-  private function validate() {
+  private function validateProvidedValues() {
+    // Validate submitted date.
     $this->validateDateTime($this->requested_datetime);
+
+    // Validate updated date (if it exists).
     if ($this->updated_datetime) {
       $this->validateDateTime($this->updated_datetime);
+    }
+
+    // Create a predictable Service Request ID if one isn't provided.
+    if (empty($this->service_request_id)) {
+      $this->service_request_id = sha1($this->requested_datetime . $this->address);
+    }
+
+    // Generate a service name if none is provided.
+    if (empty($this->service_name)) {
+      $this->service_name = "No service name provided";
+    }
+
+    // Generate a Description if one isn't provided.
+    if (empty($this->description)) {
+      $this->description = $this->service_name . "  - " . $this->address;
+    }
+
+    $requiredValues = [
+      'requested_datetime',
+      'description',
+      'service_request_id'
+    ];
+    foreach ($requiredValues as $requiredValue) {
+      if (empty($requiredValue)) {
+        throw new \Exception("$requiredValue value is required");
+      }
     }
   }
 

@@ -1,1 +1,6 @@
 <?php
+
+function bos311_cron() {
+  $fetch = new \Drupal\bos311\FetchResponses();
+  $fetch->doFetch();
+}

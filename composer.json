@@ -6,7 +6,8 @@
         "drupal/core-recommended": "^9",
         "drupal/core-composer-scaffold": "^9",
         "drush/drush": "^10",
-        "composer/installers": "^1.2"
+        "composer/installers": "^1.2",
+        "ext-json": "*"
     },
     "license": "GPL-2.0-or-later",
     "authors": [
