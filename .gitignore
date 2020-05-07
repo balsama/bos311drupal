@@ -12,3 +12,6 @@
 
 # Ignore Composer-managed dependencies.
 vendor/
+
+# Dev DB
+/fixtures/.development
