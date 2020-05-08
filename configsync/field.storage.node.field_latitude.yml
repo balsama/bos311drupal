@@ -1,4 +1,4 @@
-uuid: f86ee388-44dd-4277-bc91-1ae877cb39f7
+uuid: e674e3a8-ab1e-41b9-b2bd-b4c6465fbf90
 langcode: en
 status: true
 dependencies:
@@ -7,8 +7,10 @@ dependencies:
 id: node.field_latitude
 field_name: field_latitude
 entity_type: node
-type: float
-settings: {  }
+type: decimal
+settings:
+  precision: 13
+  scale: 10
 module: core
 locked: false
 cardinality: 1

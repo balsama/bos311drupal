@@ -1,15 +1,15 @@
-uuid: 2121e876-7a6b-4a6e-9014-78bd25e5f569
+uuid: 9d6ae481-3b70-4982-aceb-376086e1b42a
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_longitide
+    - field.storage.node.field_longitude
     - node.type.report
-id: node.report.field_longitide
-field_name: field_longitide
+id: node.report.field_longitude
+field_name: field_longitude
 entity_type: node
 bundle: report
-label: Longitide
+label: Longitude
 description: ''
 required: false
 translatable: false
@@ -20,4 +20,4 @@ settings:
   max: null
   prefix: ''
   suffix: ''
-field_type: float
+field_type: decimal

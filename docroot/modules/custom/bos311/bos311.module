@@ -1,6 +1,16 @@
 <?php
 
+use Drupal\Core\Entity\EntityInterface;
+
 function bos311_cron() {
   $fetch = new \Drupal\bos311\FetchResponses();
   $fetch->doFetch();
+}
+
+function bos311_entity_presave(EntityInterface $entity) {
+  if (!$entity->bos311UpdatedDatetime) {
+    return;
+  }
+  // Sets Report nodes' updated time to when it was actualy update in the 31 system.
+  $entity->setChangedTime($entity->bos311UpdatedDatetime);
 }

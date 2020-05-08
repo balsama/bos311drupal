@@ -6,7 +6,7 @@ dependencies:
     - field.field.node.report.field_address
     - field.field.node.report.field_description
     - field.field.node.report.field_latitude
-    - field.field.node.report.field_longitide
+    - field.field.node.report.field_longitude
     - field.field.node.report.field_media_url
     - field.field.node.report.field_requested_datetime
     - field.field.node.report.field_service_name
@@ -45,14 +45,14 @@ content:
     type: string_textarea
     region: content
   field_latitude:
-    weight: 129
+    weight: 135
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
-  field_longitide:
-    weight: 130
+  field_longitude:
+    weight: 136
     settings:
       placeholder: ''
     third_party_settings: {  }

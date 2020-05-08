@@ -6,6 +6,7 @@ use Drupal\Core\Database\IntegrityConstraintViolationException;
 use Drupal\Core\Entity\EntityStorageException;
 use \Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;
+use function GuzzleHttp\Psr7\str;
 
 class Record {
   protected $service_request_id;
@@ -50,6 +51,7 @@ class Record {
     }
 
     $node = Node::create($values);
+    $node->bos311UpdatedDatetime = strtotime($this->updated_datetime);
     $node->save();
     return $node;
   }
@@ -60,8 +62,10 @@ class Record {
   protected function updateRecord($existingReport) {
 
     $existingReport->field_status_notes = $this->status_notes;
-    $existingReport->field_updated_datetime = $this->updated_datetime;
+    $existingReport->field_updated_datetime = strtotime($this->updated_datetime);
     $existingReport->field_status = $this->status;
+
+    $existingReport->bos311UpdatedDatetime = strtotime($this->updated_datetime);
 
     $existingReport->save();
     return $existingReport;
@@ -87,12 +91,13 @@ class Record {
     $values['field_updated_datetime'] = substr($this->updated_datetime, 0, 19);
     $values['field_address'] = $this->address;
     $values['field_latitude'] = $this->latitude;
-    $values['field_longitide'] = $this->longitude;
+    $values['field_longitude'] = $this->longitude;
     $values['field_media_url'] = $this->media_url;
     $values['field_service_name'] = [
       'target_id' => $this->mapServiceName($this->service_name),
     ];
     $values['created'] = strtotime($this->requested_datetime);
+    $values['changed'] = ($this->updated_datetime) ? strtotime($this->updated_datetime) : strtotime($this->requested_datetime);
 
     return $values;
   }

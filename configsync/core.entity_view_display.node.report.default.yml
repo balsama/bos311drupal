@@ -6,7 +6,7 @@ dependencies:
     - field.field.node.report.field_address
     - field.field.node.report.field_description
     - field.field.node.report.field_latitude
-    - field.field.node.report.field_longitide
+    - field.field.node.report.field_longitude
     - field.field.node.report.field_media_url
     - field.field.node.report.field_requested_datetime
     - field.field.node.report.field_service_name
@@ -40,23 +40,23 @@ content:
     type: basic_string
     region: content
   field_latitude:
-    weight: 109
+    weight: 115
     label: above
     settings:
       thousand_separator: ''
       decimal_separator: .
-      scale: 2
+      scale: 10
       prefix_suffix: true
     third_party_settings: {  }
     type: number_decimal
     region: content
-  field_longitide:
-    weight: 110
+  field_longitude:
+    weight: 116
     label: above
     settings:
       thousand_separator: ''
       decimal_separator: .
-      scale: 2
+      scale: 10
       prefix_suffix: true
     third_party_settings: {  }
     type: number_decimal
@@ -119,7 +119,7 @@ content:
     region: content
   links:
     weight: 100
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden: {  }

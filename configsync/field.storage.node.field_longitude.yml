@@ -1,14 +1,16 @@
-uuid: 7d4c7a8e-8399-4e84-b9f9-d7c8805c5dda
+uuid: ced648af-879f-49b0-9a99-7b92b91a3cab
 langcode: en
 status: true
 dependencies:
   module:
     - node
-id: node.field_longitide
-field_name: field_longitide
+id: node.field_longitude
+field_name: field_longitude
 entity_type: node
-type: float
-settings: {  }
+type: decimal
+settings:
+  precision: 13
+  scale: 10
 module: core
 locked: false
 cardinality: 1
