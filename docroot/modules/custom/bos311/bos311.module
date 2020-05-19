@@ -3,8 +3,8 @@
 use Drupal\Core\Entity\EntityInterface;
 
 function bos311_cron() {
-  $fetch = new \Drupal\bos311\FetchResponses();
-  $fetch->doFetch();
+  //$fetch = new \Drupal\bos311\FetchResponses();
+  //$fetch->doFetch();
 }
 
 function bos311_entity_presave(EntityInterface $entity) {

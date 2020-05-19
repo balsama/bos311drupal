@@ -60,6 +60,10 @@ class Record {
    * Makes limited updates to a record. This method will only update the Status Notes, Status, and Updated Date field.
    */
   protected function updateRecord($existingReport) {
+    if ($existingReport->field_updated_datetime->value == strtotime($this->updated_datetime)) {
+      // This report has no new info.
+      return false;
+    }
 
     $existingReport->field_status_notes = $this->status_notes;
     $existingReport->field_updated_datetime = strtotime($this->updated_datetime);
@@ -181,20 +185,8 @@ class Record {
    * @param $date
    * @return bool
    */
-  private function validateDateTime($date) {
-    if (preg_match('/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})Z$/', $date, $parts) == true) {
-      $time = gmmktime($parts[4], $parts[5], $parts[6], $parts[2], $parts[3], $parts[1]);
-
-      $input_time = strtotime($date);
-      if ($input_time === false) {
-        return false;
-      }
-
-      return $input_time == $time;
-    }
-    else {
-      return false;
-    }
+  public static function validateDateTime($date) {
+    // @todo
   }
 
 }
