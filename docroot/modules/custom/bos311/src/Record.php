@@ -34,6 +34,12 @@ class Record {
       if ($key == 'long') {
         $key = 'longitude';
       }
+      if ($key == 'requested_datetime') {
+        $value = substr($value, 0, 19);
+      }
+      if ($key == 'updated_datetime') {
+        $value = substr($value, 0, 19);
+      }
       $this->$key = $value;
     }
   }
@@ -60,7 +66,7 @@ class Record {
    * Makes limited updates to a record. This method will only update the Status Notes, Status, and Updated Date field.
    */
   protected function updateRecord($existingReport) {
-    if ($existingReport->field_updated_datetime->value == strtotime($this->updated_datetime)) {
+    if ($existingReport->field_updated_datetime->value == substr($this->updated_datetime, 0, 19)) {
       // This report has no new info.
       return false;
     }
@@ -86,7 +92,7 @@ class Record {
     $values = [];
     $values['uuid'] = $this->service_request_id;
     $values['type'] = 'report';
-    $values['title'] = $this->service_request_id . " - " . substr($this->description, 0, 120);
+    $values['title'] = substr($this->description, 0, 120);
     $values['field_service_request_id'] = $this->service_request_id;
     $values['field_description'] = $this->description;
     $values['field_status_notes'] = $this->status_notes;
@@ -107,12 +113,23 @@ class Record {
   }
 
   private function validateProvidedValues() {
+    // Some records don't have a requested datetime for some some reason. When they don't, they usually have an updated
+    // datetime... for some reason.
+    if ($this->requested_datetime == null) {
+      if ($this->updated_datetime) {
+        $this->requested_datetime = $this->updated_datetime;
+      }
+      else {
+        $this->requested_datetime = date('Y-m-d\TH:i:s');
+      }
+    }
+
     // Validate submitted date.
-    $this->validateDateTime($this->requested_datetime);
+    $this->requested_datetime = $this->formatDateTime($this->requested_datetime);
 
     // Validate updated date (if it exists).
     if ($this->updated_datetime) {
-      $this->validateDateTime($this->updated_datetime);
+      $this->updated_datetime = $this->formatDateTime($this->updated_datetime);
     }
 
     // Create a predictable Service Request ID if one isn't provided.
@@ -136,7 +153,7 @@ class Record {
       'service_request_id'
     ];
     foreach ($requiredValues as $requiredValue) {
-      if (empty($requiredValue)) {
+      if (empty($this->$requiredValue)) {
         throw new \Exception("$requiredValue value is required");
       }
     }
@@ -185,8 +202,13 @@ class Record {
    * @param $date
    * @return bool
    */
-  public static function validateDateTime($date) {
-    // @todo
+  public static function formatDateTime($date)
+  {
+    $date = strtotime($date);
+    if ($date === false) {
+      throw Exception('bad date');
+    }
+    return date('Y-m-d\TH:i:s', $date);
   }
 
 }

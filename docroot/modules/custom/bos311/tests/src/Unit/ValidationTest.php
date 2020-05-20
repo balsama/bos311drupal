@@ -8,9 +8,12 @@ use Drupal\bos311\Record;
 class ValidationTest extends UnitTestCase {
 
   public function testValidateDateTime() {
-
-    $this->assertTrue(Record::validateDateTime('2020-05-18T18:19:14-04:00')); // Known good format
-    $this->assertFalse(Record::validateDateTime('2020-05-13T06:54:14-04:00')); // Possible known bad format
+    // I ended up changing to to a format method, so this is vestigial (for now).
+    $this->assertTrue(Record::formatDateTime('2000-01-01T01:00:00+1200'));
+    $this->assertTrue(Record::formatDateTime('2020-05-18T18:19:14-0400'));
+    $this->assertTrue(Record::formatDateTime('2020-05-18T18:19:14-04:00'));
+    $this->assertTrue(Record::formatDateTime('2020-05-18T18:19:14'));
+    $this->assertFalse(Record::formatDateTime('1234567890')); // Possible known bad format
 
   }
 
