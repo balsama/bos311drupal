@@ -37,7 +37,7 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: Filter
+          submit_button: Find
           reset_button: true
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
@@ -567,7 +567,7 @@ display:
           admin_label: ''
           empty: true
           tokenize: false
-          content: 'No content available.'
+          content: 'No reports found.'
           plugin_id: text_custom
       arguments: {  }
       relationships: {  }
@@ -578,6 +578,17 @@ display:
           1: AND
       display_extenders: {  }
       use_ajax: false
+      header:
+        result:
+          id: result
+          table: views
+          field: result
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: false
+          content: 'Displaying @start - @end of @total reports found'
+          plugin_id: result
     display_plugin: default
     display_title: Master
     id: default
@@ -615,6 +626,7 @@ display:
         menu_name: admin
         weight: -10
       display_extenders: {  }
+      exposed_block: false
     display_plugin: page
     display_title: Page
     id: page
