@@ -8,10 +8,9 @@ use Drupal\bos311\Record;
 
 class Bos311Controller extends ControllerBase {
 
-
   public function bos311() {
     $fetch = new \Drupal\bos311\FetchResponses();
-    $fetch->doFetch(null, 1);
+    $fetch->doFetchIndividualRecords();
 
     $element = [
       "#markup" => "<h2>Hello (boston) world ;)</h2>"

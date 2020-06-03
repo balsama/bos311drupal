@@ -5,8 +5,6 @@ dependencies:
   config:
     - field.storage.node.field_service_name
     - taxonomy.vocabulary.service
-  content:
-    - 'taxonomy_term:service:56a9349b-269f-4e45-8bf8-1c834fc5af9a'
   module:
     - node
     - options
@@ -621,8 +619,7 @@ display:
           group_type: group
           admin_label: ''
           operator: or
-          value:
-            1: 1
+          value: {  }
           group: 1
           exposed: true
           expose:

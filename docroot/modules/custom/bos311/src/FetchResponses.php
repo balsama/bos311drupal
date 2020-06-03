@@ -6,6 +6,9 @@ class FetchResponses {
 
   protected array $services;
   protected Response $response;
+  protected string $startingLiServiceRequestId;
+  protected string $startingFiServiceRequestId;
+  protected $numberToGet = 50;
 
   public function __construct() {
     $this->response = new Response();
@@ -34,9 +37,92 @@ class FetchResponses {
     return;
   }
 
+  public function doFetchIndividualRecords() {
+    $this->doFetchIndividualRecordsLi(null);
+    $this->doFetchIndividualRecordsLiSkipped();
+    $this->doFetchIndividualRecordsFi(null);
+  }
+
+  protected function doFetchIndividualRecordsLi($serviceRequestId = null) {
+    if ($serviceRequestId == null) {
+      $serviceRequestId = $this->findLatestServiceRequestId();
+    }
+    $record = $this->getRecord($serviceRequestId);
+    $nextServiceRequestId = $serviceRequestId - 1;
+    // Check to see if #nextServiceRequestID already exists. If so, we can move on to the
+    if ($nextServiceRequestId > ($this->startingLiServiceRequestId - $this->numberToGet)) {
+      $this->doFetchIndividualRecordsLi($serviceRequestId - 1);
+    }
+    return;
+  }
+
+  protected function doFetchIndividualRecordsLiSkipped() {
+    // todo
+  }
+
+  protected function doFetchIndividualRecordsFi($serviceRequestId = null) {
+    if ($serviceRequestId == null) {
+      $serviceRequestId = $this->findStartingFiServiceRequestId();
+    }
+    $record = $this->getRecord($serviceRequestId);
+    if ($record) {
+      $this->storeLastSavedRecordId($record->uuid());
+    }
+    $nextServiceRequestId = $serviceRequestId - 1;
+    if (($this->startingFiServiceRequestId - $nextServiceRequestId) < $this->numberToGet) {
+      $this->doFetchIndividualRecordsFi($serviceRequestId - 1);
+    }
+  }
+
+  protected function findStartingFiServiceRequestId() {
+    // Get the latest node in case we haven't set the last-record-uuid yet
+    $nid = \Drupal::entityQuery('node')
+      ->condition('type','report')
+      ->range(0, 1)
+      ->sort('nid', 'DESC')
+      ->execute();
+    $node = \Drupal::entityTypeManager()->getStorage('node')->load(reset($nid));
+    $backupStart = $node->uuid();
+
+
+    $serviceRequestId = (\Drupal::state()->get('last-record-uuid', $backupStart) - 1);
+    $this->startingFiServiceRequestId = $serviceRequestId;
+    return $serviceRequestId;
+  }
+
+  protected function findLatestServiceRequestId() {
+    $response = $this->response->fetch("https://mayors24.cityofboston.gov/open311/v2/requests.json");
+    $objResponse = json_decode($response);
+    $recordToUse = reset($objResponse);
+
+    foreach ($objResponse as $record) {
+      // If one of the first 50 responses is open, use that request ID as the starting point since it will be higher
+      // than any recently closed ones. If not, fall back to the first record.
+      if ($record->status == "open") {
+        $recordToUse = $record;
+        continue;
+      }
+    }
+
+    $firstResponseServiceRequestId = $recordToUse->service_request_id;
+    $this->startingLiServiceRequestId = $firstResponseServiceRequestId;
+    return $firstResponseServiceRequestId;
+  }
+
   protected function gatherServices() {
     $services = $this->response->fetch('https://mayors24.cityofboston.gov/open311/v2/services.json?jurisdiction_id=boston.gov');
     $this->services = json_decode($services);
+  }
+
+  /**
+   * Fetches a single record and stores it as a Record node.
+   */
+  protected function getRecord($service_request_id) {
+    $rawRecord = json_decode($this->response->fetch("https://mayors24.cityofboston.gov/open311/v2/requests.json?service_request_id=$service_request_id"));
+
+    if ($savedRecord = $this->saveRecord($rawRecord[0])) {
+      return $savedRecord;
+    }
   }
 
   /**
@@ -73,11 +159,18 @@ class FetchResponses {
    * @param $rawRecord
    */
   protected function saveRecord($rawRecord) {
+    if (!$rawRecord) {
+      return;
+    }
     $record = new Record($rawRecord);
     return $record->createRecord();
   }
 
   protected function storeLastRetrievedPageNumber($serviceCode, $page) {
     \Drupal::state()->set($serviceCode, $page);
+  }
+
+  protected function storeLastSavedRecordId($service_request_id) {
+    \Drupal::state()->set('last-record-uuid', $service_request_id);
   }
 }

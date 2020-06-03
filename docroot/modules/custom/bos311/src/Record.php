@@ -68,7 +68,7 @@ class Record {
   protected function updateRecord($existingReport) {
     if ($existingReport->field_updated_datetime->value == substr($this->updated_datetime, 0, 19)) {
       // This report has no new info.
-      return false;
+      return $existingReport;
     }
 
     $existingReport->field_status_notes = $this->status_notes;

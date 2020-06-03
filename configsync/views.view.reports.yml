@@ -7,6 +7,8 @@ dependencies:
     - field.storage.node.field_service_name
     - field.storage.node.field_status
     - taxonomy.vocabulary.service
+  content:
+    - 'taxonomy_term:service:bb9a82ed-6c2b-4b6e-954e-6c7dbe146fdf'
   module:
     - node
     - options
@@ -351,10 +353,12 @@ display:
           exposed: true
           expose:
             operator_id: title_op
-            label: Title
+            label: 'Title (contains)'
             description: ''
             use_operator: false
             operator: title_op
+            operator_limit_selection: false
+            operator_list: {  }
             identifier: title
             required: false
             remember: false
@@ -362,9 +366,7 @@ display:
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
-              administrator: '0'
-            operator_limit_selection: false
-            operator_list: {  }
+            placeholder: ''
           is_grouped: false
           group_info:
             label: ''
@@ -393,7 +395,7 @@ display:
           exposed: true
           expose:
             operator_id: field_address_value_op
-            label: 'Address Contains'
+            label: 'Address (contains)'
             description: ''
             use_operator: false
             operator: field_address_value_op
@@ -507,6 +509,52 @@ display:
             group_items: {  }
           reduce_duplicates: false
           plugin_id: list_field
+        tid_1:
+          id: tid_1
+          table: taxonomy_index
+          field: tid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: not
+          value:
+            - 20
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          type: textfield
+          limit: true
+          vid: service
+          hierarchy: false
+          error_message: true
+          plugin_id: taxonomy_index_tid
       sorts: {  }
       title: 'Boston 311 Reports'
       empty:
