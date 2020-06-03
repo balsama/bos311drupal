@@ -132,13 +132,6 @@ class Record {
 
       $this->updated_datetime = $this->formatDateTime($this->updated_datetime);
 
-      // Debug swap times
-      $tu = $this->updated_datetime;
-      $tr = $this->requested_datetime;
-      $this->requested_datetime = $tu;
-      $this->updated_datetime = $tr;
-
-      /**
       $requestedTimestamp = strtotime($this->requested_datetime);
       $updatedTimestamp = strtotime($this->updated_datetime);
       $diff = $updatedTimestamp - $requestedTimestamp;
@@ -147,7 +140,6 @@ class Record {
         // both.
         $this->updated_datetime = $this->requested_datetime;
       }
-       */
     }
 
     // Create a predictable Service Request ID if one isn't provided.
@@ -159,6 +151,9 @@ class Record {
     if (empty($this->service_name)) {
       $this->service_name = "No service name provided";
     }
+
+    // Clean up any encoding problems
+    $this->description = $this->cleanChars($this->description);
 
     // Generate a Description if one isn't provided.
     if (empty($this->description)) {
@@ -227,6 +222,11 @@ class Record {
       throw Exception('bad date');
     }
     return date('Y-m-d\TH:i:s', $date);
+  }
+
+  protected function cleanChars($string) {
+    $cleanString = preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', $string);
+    return $cleanString;
   }
 
 }
