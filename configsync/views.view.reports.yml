@@ -8,7 +8,7 @@ dependencies:
     - field.storage.node.field_status
     - taxonomy.vocabulary.service
   content:
-    - 'taxonomy_term:service:bb9a82ed-6c2b-4b6e-954e-6c7dbe146fdf'
+    - 'taxonomy_term:service:8fbbecbb-2dee-444d-8cfe-0483139282aa'
   module:
     - node
     - options
@@ -577,7 +577,7 @@ display:
         groups:
           1: AND
       display_extenders: {  }
-      use_ajax: true
+      use_ajax: false
     display_plugin: default
     display_title: Master
     id: default

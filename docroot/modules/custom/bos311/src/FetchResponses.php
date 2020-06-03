@@ -8,7 +8,7 @@ class FetchResponses {
   protected Response $response;
   protected string $startingLiServiceRequestId;
   protected string $startingFiServiceRequestId;
-  protected $numberToGet = 50;
+  protected $numberToGet = 75;
 
   public function __construct() {
     $this->response = new Response();
@@ -57,7 +57,7 @@ class FetchResponses {
   }
 
   protected function doFetchIndividualRecordsLiSkipped() {
-    // todo
+    // This is for remaining LI reports before the first FI report.
   }
 
   protected function doFetchIndividualRecordsFi($serviceRequestId = null) {
