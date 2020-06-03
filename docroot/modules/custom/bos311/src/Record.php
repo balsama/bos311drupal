@@ -133,7 +133,7 @@ class Record {
       $requestedTimestamp = strtotime($this->requested_datetime);
       $updatedTimestamp = strtotime($this->updated_datetime);
       $diff = $updatedTimestamp - $requestedTimestamp;
-      if ($diff > 0) {
+      if ($diff < 0) {
         // If we somehow get info that says it was updated before it was requested, just use the requested date for
         // both.
         $this->updated_datetime = $this->requested_datetime;
