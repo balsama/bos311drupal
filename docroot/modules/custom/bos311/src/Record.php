@@ -107,6 +107,7 @@ class Record {
       'target_id' => $this->mapServiceName($this->service_name),
     ];
     $values['created'] = strtotime($this->requested_datetime);
+    $values['changed'] = ($this->updated_datetime) ? strtotime($this->updated_datetime) : strtotime($this->requested_datetime);
 
     return $values;
   }
@@ -128,7 +129,25 @@ class Record {
 
     // Validate updated date (if it exists).
     if ($this->updated_datetime) {
+
       $this->updated_datetime = $this->formatDateTime($this->updated_datetime);
+
+      // Debug swap times
+      $tu = $this->updated_datetime;
+      $tr = $this->requested_datetime;
+      $this->requested_datetime = $tu;
+      $this->updated_datetime = $tr;
+
+      /**
+      $requestedTimestamp = strtotime($this->requested_datetime);
+      $updatedTimestamp = strtotime($this->updated_datetime);
+      $diff = $updatedTimestamp - $requestedTimestamp;
+      if ($diff > 0) {
+        // If we somehow get info that says it was updated before it was requested, just use the requested date for
+        // both.
+        $this->updated_datetime = $this->requested_datetime;
+      }
+       */
     }
 
     // Create a predictable Service Request ID if one isn't provided.
