@@ -132,7 +132,7 @@ class Record {
       $this->updated_datetime = $this->formatDateTime($this->updated_datetime);
       $requestedTimestamp = mktime($this->requested_datetime);
       $updatedTimestamp = mktime($this->updated_datetime);
-      if (($updatedTimestamp - $requestedTimestamp) < 0) {
+      if (($updatedTimestamp - $requestedTimestamp) > 0) {
         // If we somehow get info that says it was updated before it was requested, just use the requested date for
         // both.
         $this->updated_datetime = $this->requested_datetime;
