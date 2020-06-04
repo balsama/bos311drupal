@@ -147,6 +147,11 @@ class Record {
       $this->service_request_id = sha1($this->requested_datetime . $this->address);
     }
 
+    // Strip that extra crap they put on the frongt of some Service Requst IDs.
+    if (!is_numeric($this->service_request_id)) {
+      $this->service_request_id = substr($this->service_request_id, -12);
+    }
+
     // Generate a service name if none is provided.
     if (empty($this->service_name)) {
       $this->service_name = "No service name provided";
