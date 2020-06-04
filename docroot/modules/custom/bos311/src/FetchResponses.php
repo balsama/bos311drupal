@@ -29,6 +29,7 @@ class FetchResponses {
       if ($serviceRequestId == null) {
         $serviceRequestId = \Drupal::state()->get('last-record-uuid', $this->findLatestServiceRequestId());
       }
+      $this->startingLiServiceRequestId = $serviceRequestId;
     }
     $record = $this->getRecord($serviceRequestId);
     $nextServiceRequestId = $serviceRequestId - 1;
@@ -95,7 +96,6 @@ class FetchResponses {
     }
 
     $firstResponseServiceRequestId = $recordToUse->service_request_id;
-    $this->startingLiServiceRequestId = $firstResponseServiceRequestId;
     return $firstResponseServiceRequestId;
   }
 
