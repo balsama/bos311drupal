@@ -123,8 +123,10 @@ class FetchResponses {
   protected function getRecord($service_request_id) {
     $rawRecord = json_decode($this->response->fetch("https://mayors24.cityofboston.gov/open311/v2/requests.json?service_request_id=$service_request_id"));
 
-    if ($savedRecord = $this->saveRecord($rawRecord[0])) {
-      return $savedRecord;
+    if (count($rawRecord)) {
+      if ($savedRecord = $this->saveRecord($rawRecord[0])) {
+        return $savedRecord;
+      }
     }
   }
 
