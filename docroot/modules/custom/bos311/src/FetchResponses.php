@@ -25,12 +25,10 @@ class FetchResponses {
 
   protected function doFetchIndividualRecordsLi($serviceRequestId = null) {
     if ($serviceRequestId == null) {
-      $serviceRequestId = \Drupal::state()->get('last-record-uuid', null);
-      if ($serviceRequestId == null) {
-        $serviceRequestId = \Drupal::state()->get('last-record-uuid', $this->findLatestServiceRequestId());
-      }
+      $serviceRequestId = $this->findLatestServiceRequestId();
       $this->startingLiServiceRequestId = $serviceRequestId;
     }
+
     $record = $this->getRecord($serviceRequestId);
     $nextServiceRequestId = $serviceRequestId - 1;
 
