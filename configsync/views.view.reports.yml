@@ -340,10 +340,10 @@ display:
           field_api_classes: false
           plugin_id: field
       filters:
-        title:
-          id: title
-          table: node_field_data
-          field: title
+        field_description_value:
+          id: field_description_value
+          table: node__field_description
+          field: field_description_value
           relationship: none
           group_type: group
           admin_label: ''
@@ -352,14 +352,14 @@ display:
           group: 1
           exposed: true
           expose:
-            operator_id: title_op
-            label: 'Title (contains)'
+            operator_id: field_description_value_op
+            label: 'Description (contains)'
             description: ''
             use_operator: false
-            operator: title_op
+            operator: field_description_value_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: title
+            identifier: field_description_value
             required: false
             remember: false
             multiple: false
@@ -380,8 +380,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           plugin_id: string
-          entity_type: node
-          entity_field: title
         field_address_value:
           id: field_address_value
           table: node__field_address
