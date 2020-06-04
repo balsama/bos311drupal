@@ -1,0 +1,22 @@
+uuid: b92cb269-e6eb-4fdc-8df3-f78e5ab135ba
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - bos311
+_core:
+  default_config_hash: QTwkfDaGeBUk6aerktJBDXso4fCsqLTQOuWKXE1xMPU
+id: bos311_content
+theme: bos311
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  provider: system
+  label_display: '0'
+visibility: {  }

@@ -1,0 +1,22 @@
+uuid: fab00330-f6cc-4df6-b352-00018fe725ea
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - bos311
+_core:
+  default_config_hash: iIy-YIc9d9s1isAtTIKWDBKd6kd2r6LxoYz_-hkLJco
+id: bos311_messages
+theme: bos311
+region: highlighted
+weight: 0
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  provider: system
+  label_display: '0'
+visibility: {  }

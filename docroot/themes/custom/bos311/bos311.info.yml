@@ -1,0 +1,19 @@
+name: Boston 311
+type: theme
+description: 'Boston 311 Reports sub theme of Claro'
+base theme: claro
+
+regions:
+  header: 'Header'
+  pre_content: 'Pre-content'
+  breadcrumb: Breadcrumb
+  highlighted: Highlighted
+  help: Help
+  content: Content
+  page_top: 'Page top'
+  page_bottom: 'Page bottom'
+  sidebar_first: 'First sidebar'
+regions_hidden:
+  - sidebar_first
+
+core_version_requirement: ^9
