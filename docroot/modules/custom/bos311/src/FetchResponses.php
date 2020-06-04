@@ -8,7 +8,7 @@ class FetchResponses {
   protected Response $response;
   protected string $startingLiServiceRequestId;
   protected string $startingFiServiceRequestId;
-  protected $numberToGet = 75;
+  protected $numberToGet = 150;
 
   public function __construct() {
     $this->response = new Response();
@@ -171,6 +171,9 @@ class FetchResponses {
   }
 
   protected function storeLastSavedRecordId($service_request_id) {
+    if (!is_numeric($service_request_id)) {
+      $service_request_id = \Drupal::state()->get('last-record-uuid', $this->findStartingFiServiceRequestId());
+    }
     \Drupal::state()->set('last-record-uuid', $service_request_id);
   }
 }
