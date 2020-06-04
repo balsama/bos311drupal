@@ -8,7 +8,7 @@ class FetchResponses {
   protected Response $response;
   protected string $startingLiServiceRequestId;
   protected string $startingFiServiceRequestId;
-  protected $numberToGet = 200;
+  protected $numberToGet = 300;
 
   public function __construct() {
     $this->response = new Response();
