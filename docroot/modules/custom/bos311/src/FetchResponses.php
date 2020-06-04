@@ -8,7 +8,7 @@ class FetchResponses {
   protected Response $response;
   protected string $startingLiServiceRequestId;
   protected string $startingFiServiceRequestId;
-  protected $numberToGet = 300;
+  protected $numberToGet = 500;
   protected $recordsSaved = 0;
   protected $apiRequestsMade = 0;
 
@@ -29,7 +29,12 @@ class FetchResponses {
     }
     $record = $this->getRecord($serviceRequestId);
     $nextServiceRequestId = $serviceRequestId - 1;
-    // Check to see if #nextServiceRequestID already exists. If so, we can move on to the
+
+    $existingReport = \Drupal::service('entity.repository')->loadEntityByUuid('node', $nextServiceRequestId);
+    if ($existingReport) {
+      //If $nextServiceRequestID already exists. If so, we can move on to the getting the FI ones.
+      return;
+    }
     if ($nextServiceRequestId > ($this->startingLiServiceRequestId - $this->numberToGet)) {
       $this->doFetchIndividualRecordsLi($serviceRequestId - 1);
     }
