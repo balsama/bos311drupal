@@ -11,7 +11,7 @@ _core:
 id: bos311_messages
 theme: bos311
 region: highlighted
-weight: 0
+weight: -3
 provider: null
 plugin: system_messages_block
 settings:

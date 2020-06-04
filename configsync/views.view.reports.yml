@@ -7,6 +7,7 @@ dependencies:
     - field.storage.node.field_media_url
     - field.storage.node.field_service_name
     - field.storage.node.field_status
+    - system.menu.main
     - taxonomy.vocabulary.service
   content:
     - 'taxonomy_term:service:8fbbecbb-2dee-444d-8cfe-0483139282aa'
@@ -740,14 +741,14 @@ display:
     display_options:
       path: reports
       menu:
-        type: none
-        title: Content
+        type: normal
+        title: 'Search for 311 reports'
         description: ''
         expanded: false
         parent: ''
-        weight: -10
+        weight: 10
         context: '0'
-        menu_name: admin
+        menu_name: main
       tab_options:
         type: normal
         title: Content

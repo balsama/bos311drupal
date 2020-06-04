@@ -9,7 +9,7 @@ _core:
 id: bos311_secondary_local_tasks
 theme: bos311
 region: pre_content
-weight: 0
+weight: -2
 provider: null
 plugin: local_tasks_block
 settings:
