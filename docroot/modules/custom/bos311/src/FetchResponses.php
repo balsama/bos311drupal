@@ -86,6 +86,9 @@ class FetchResponses {
 
 
     $serviceRequestId = (\Drupal::state()->get('last-record-uuid', $backupStart) - 1);
+    if (!is_numeric($serviceRequestId)) {
+      $serviceRequestId = $this->findStartingFiServiceRequestId();
+    }
     $this->startingFiServiceRequestId = $serviceRequestId;
     return $serviceRequestId;
   }
