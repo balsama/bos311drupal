@@ -9,38 +9,18 @@ class FetchResponses {
   protected string $startingLiServiceRequestId;
   protected string $startingFiServiceRequestId;
   protected $numberToGet = 300;
+  protected $recordsSaved = 0;
+  protected $apiRequestsMade = 0;
 
   public function __construct() {
     $this->response = new Response();
-    $this->gatherServices();
-  }
-
-  public function doFetch($page, $limit) {
-    foreach ($this->services as $service) {
-      $this->doFetchLiRecords($service, $limit);
-      $this->doFetchFiRecords($service, $page, $limit);
-    }
-  }
-
-  protected function doFetchLiRecords($service, $limit) {
-    $this->getRecords($service->service_code, 0, 0, $limit, true);
-  }
-
-  protected function doFetchFiRecords($service, $page, $limit) {
-    if (!$page) {
-      $page = \Drupal::state()->get($service->service_code, 0);
-    }
-    if ($page === 'done') {
-      return;
-    }
-    $this->getRecords($service->service_code, $page, $page, $limit);
-    return;
   }
 
   public function doFetchIndividualRecords() {
     $this->doFetchIndividualRecordsLi(null);
     $this->doFetchIndividualRecordsLiSkipped();
     $this->doFetchIndividualRecordsFi(null);
+    $this->recordStatistics();
   }
 
   protected function doFetchIndividualRecordsLi($serviceRequestId = null) {
@@ -66,7 +46,7 @@ class FetchResponses {
     }
     $record = $this->getRecord($serviceRequestId);
     if ($record) {
-      $this->storeLastSavedRecordId($record->uuid());
+      $this->storeLastSavedRecordId($serviceRequestId);
     }
     $nextServiceRequestId = $serviceRequestId - 1;
     if (($this->startingFiServiceRequestId - $nextServiceRequestId) < $this->numberToGet) {
@@ -83,7 +63,6 @@ class FetchResponses {
       ->execute();
     $node = \Drupal::entityTypeManager()->getStorage('node')->load(reset($nid));
     $backupStart = $node->uuid();
-
 
     $serviceRequestId = (\Drupal::state()->get('last-record-uuid', $backupStart) - 1);
     if (!is_numeric($serviceRequestId)) {
@@ -112,50 +91,17 @@ class FetchResponses {
     return $firstResponseServiceRequestId;
   }
 
-  protected function gatherServices() {
-    $services = $this->response->fetch('https://mayors24.cityofboston.gov/open311/v2/services.json?jurisdiction_id=boston.gov');
-    $this->services = json_decode($services);
-  }
-
   /**
    * Fetches a single record and stores it as a Record node.
    */
   protected function getRecord($service_request_id) {
     $rawRecord = json_decode($this->response->fetch("https://mayors24.cityofboston.gov/open311/v2/requests.json?service_request_id=$service_request_id"));
+    $this->apiRequestsMade++;
 
     if (count($rawRecord)) {
-      if ($savedRecord = $this->saveRecord($rawRecord[0])) {
+      if ($savedRecord = $this->saveRecord($rawRecord[0], $service_request_id)) {
         return $savedRecord;
       }
-    }
-  }
-
-  /**
-   * Fetches records for the provided service until it reaches the last record or a record that is already stored.
-   * @param $service
-   */
-  protected function getRecords($serviceCode, $page, $start, $limit, $stopOnDupe = false) {
-    if ($limit) {
-      if ($page > ($limit + $start)) {
-        return;
-      }
-    }
-
-    $records = $this->response->fetch("https://mayors24.cityofboston.gov/open311/v2/requests.json?service_code=$serviceCode&jurisdiction_id=boston.gov&page=$page");
-    $records = json_decode($records);
-    foreach ($records as $rawRecord) {
-      $savedRecord = $this->saveRecord($rawRecord);
-      if (($savedRecord === false) && $stopOnDupe) {
-        return;
-      }
-    }
-    if (!empty($records)) {
-      $this->storeLastRetrievedPageNumber($serviceCode, $page);
-      $this->getRecords($serviceCode, ($page + 1), $start, $limit);
-    }
-    else {
-      \Drupal::state()->set($serviceCode, 'done');
-      return;
     }
   }
 
@@ -163,16 +109,15 @@ class FetchResponses {
    * Saves a record!!
    * @param $rawRecord
    */
-  protected function saveRecord($rawRecord) {
+  protected function saveRecord($rawRecord, $service_request_id) {
     if (!$rawRecord) {
       return;
     }
     $record = new Record($rawRecord);
-    return $record->createRecord();
-  }
-
-  protected function storeLastRetrievedPageNumber($serviceCode, $page) {
-    \Drupal::state()->set($serviceCode, $page);
+    if ($newRecord = $record->createRecord()) {
+      $this->recordsSaved++;
+      return $newRecord;
+    }
   }
 
   protected function storeLastSavedRecordId($service_request_id) {
@@ -180,5 +125,10 @@ class FetchResponses {
       $service_request_id = \Drupal::state()->get('last-record-uuid', $this->findStartingFiServiceRequestId());
     }
     \Drupal::state()->set('last-record-uuid', $service_request_id);
+  }
+
+  protected function recordStatistics() {
+    $message = "API calls: $this->apiRequestsMade Records saved: $this->recordsSaved";
+    \Drupal::logger('Boston 311 Reports')->notice($message);
   }
 }
