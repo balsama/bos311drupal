@@ -88,7 +88,7 @@ class FetchResponses {
       // than any recently closed ones. If not, fall back to the first record.
       if ($record->status == "open") {
         $recordToUse = $record;
-        continue;
+        break;
       }
     }
 
