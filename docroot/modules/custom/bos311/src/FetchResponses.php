@@ -35,9 +35,9 @@ class FetchResponses {
 
     $existingReport = \Drupal::service('entity.repository')->loadEntityByUuid('node', $nextServiceRequestId);
     if ($existingReport) {
-      // If $nextServiceRequestID already exists. If so, we ~~can~~ should be able move on to the getting the FI ones.
-      // But apparently there's a problem with that because we were missing a bunch if we did.
-      $this->existingReportsSkipped++;
+      // If $nextServiceRequestID already exists. If so, we can move on to the getting the FI ones.
+      // meh. Are we?
+      return;
     }
     if ($nextServiceRequestId > ($this->startingLiServiceRequestId - $this->numberToGet)) {
       $this->doFetchIndividualRecordsLi($serviceRequestId - 1);
