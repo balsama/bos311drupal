@@ -52,7 +52,7 @@ class FetchResponses {
       $serviceRequestId = $this->findStartingFiServiceRequestId();
     }
     $record = $this->getRecord($serviceRequestId);
-    
+
     $this->storeLastSavedRecordId($serviceRequestId);
     $nextServiceRequestId = $serviceRequestId - 1;
     if (($this->startingFiServiceRequestId - $nextServiceRequestId) < $this->numberToGet) {
@@ -133,7 +133,7 @@ class FetchResponses {
   }
 
   protected function recordStatistics() {
-    $message = "API calls: $this->apiRequestsMade Records saved: $this->recordsSaved";
+    $message = "API calls: $this->apiRequestsMade Records saved: $this->recordsSaved Start LI: $this->startingLiServiceRequestId Start FI: $this->startingFiServiceRequestId";
     \Drupal::logger('Boston 311 Reports')->notice($message);
   }
 }
