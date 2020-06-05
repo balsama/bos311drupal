@@ -5,13 +5,15 @@ dependencies:
   config:
     - field.storage.node.field_address
     - field.storage.node.field_media_url
+    - field.storage.node.field_requested_datetime
     - field.storage.node.field_service_name
     - node.type.report
     - system.menu.main
     - taxonomy.vocabulary.service
   content:
-    - 'taxonomy_term:service:8fbbecbb-2dee-444d-8cfe-0483139282aa'
+    - 'taxonomy_term:service:9df16489-5f61-4db0-9dda-befe86807e73'
   module:
+    - datetime
     - node
     - taxonomy
     - user
@@ -68,7 +70,7 @@ display:
           columns:
             nid: nid
             title: title
-            changed: changed
+            field_requested_datetime: field_requested_datetime
             field_service_name: field_service_name
             field_address: field_address
             field_media_url: field_media_url
@@ -87,9 +89,9 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            changed:
+            field_requested_datetime:
               sortable: true
-              default_sort_order: desc
+              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
@@ -115,7 +117,7 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-          default: changed
+          default: '-1'
           empty_table: true
       row:
         type: fields
@@ -206,28 +208,70 @@ display:
           settings:
             link_to_entity: true
           plugin_id: field
-        changed:
-          id: changed
-          table: node_field_data
-          field: changed
-          label: Updated
+        field_requested_datetime:
+          id: field_requested_datetime
+          table: node__field_requested_datetime
+          field: field_requested_datetime
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: Created
           exclude: false
           alter:
             alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
           element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
           element_default_classes: true
           empty: ''
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          type: timestamp
+          click_sort_column: value
+          type: datetime_default
           settings:
-            date_format: short
-            custom_date_format: ''
-            timezone: ''
+            timezone_override: ''
+            format_type: the_only_reasonable_format
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
           plugin_id: field
-          entity_type: node
-          entity_field: changed
         field_service_name:
           id: field_service_name
           table: node__field_service_name
@@ -361,7 +405,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Media URL'
+          label: ''
           exclude: false
           alter:
             alter_text: true
@@ -394,7 +438,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -672,6 +716,52 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           plugin_id: string
+        field_requested_datetime_value:
+          id: field_requested_datetime_value
+          table: node__field_requested_datetime
+          field: field_requested_datetime_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: between
+          value:
+            min: ''
+            max: ''
+            value: ''
+            type: date
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_requested_datetime_value_op
+            label: 'Submitted date/time is between...'
+            description: ''
+            use_operator: false
+            operator: field_requested_datetime_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_requested_datetime_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+            placeholder: ''
+            min_placeholder: 'YYYY-MM-DD HH:MM:SS'
+            max_placeholder: 'YYYY-MM-DD HH:MM:SS'
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: datetime
       sorts: {  }
       title: 'Boston 311 Reports'
       empty:
@@ -704,7 +794,7 @@ display:
           group_type: group
           admin_label: ''
           empty: false
-          content: "Displaying @start - @end of @total reports found\r\nClick on a report for more information about it."
+          content: "<p>Displaying <strong>@start</strong> - <strong>@end</strong> of <strong>@total</strong> reports found</p>\r\n<p>Click on a report title for more information about it.<p>\r\n<p>Use the form below to search for reports. All fields are optional. Leave blank for all results</p>"
           plugin_id: result
     display_plugin: default
     display_title: Master
@@ -723,6 +813,7 @@ display:
       tags:
         - 'config:field.storage.node.field_address'
         - 'config:field.storage.node.field_media_url'
+        - 'config:field.storage.node.field_requested_datetime'
         - 'config:field.storage.node.field_service_name'
   page:
     display_options:
@@ -761,4 +852,5 @@ display:
       tags:
         - 'config:field.storage.node.field_address'
         - 'config:field.storage.node.field_media_url'
+        - 'config:field.storage.node.field_requested_datetime'
         - 'config:field.storage.node.field_service_name'
