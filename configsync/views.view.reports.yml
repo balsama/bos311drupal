@@ -100,7 +100,7 @@ display:
               responsive: ''
             field_requested_datetime:
               sortable: true
-              default_sort_order: asc
+              default_sort_order: desc
               align: ''
               separator: ''
               empty_column: false
