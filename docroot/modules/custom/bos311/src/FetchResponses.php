@@ -8,9 +8,10 @@ class FetchResponses {
   protected Response $response;
   protected string $startingLiServiceRequestId;
   protected string $startingFiServiceRequestId;
-  protected $numberToGet = 500;
+  protected $numberToGet = 10;
   protected $recordsSaved = 0;
   protected $apiRequestsMade = 0;
+  protected $existingReportsSkipped = 0;
 
   public function __construct() {
     $this->response = new Response();
@@ -34,8 +35,9 @@ class FetchResponses {
 
     $existingReport = \Drupal::service('entity.repository')->loadEntityByUuid('node', $nextServiceRequestId);
     if ($existingReport) {
-      //If $nextServiceRequestID already exists. If so, we can move on to the getting the FI ones.
-      return;
+      // If $nextServiceRequestID already exists. If so, we ~~can~~ should be able move on to the getting the FI ones.
+      // But apparently there's a problem with that because we were missing a bunch if we did.
+      $this->existingReportsSkipped++;
     }
     if ($nextServiceRequestId > ($this->startingLiServiceRequestId - $this->numberToGet)) {
       $this->doFetchIndividualRecordsLi($serviceRequestId - 1);
@@ -133,7 +135,7 @@ class FetchResponses {
   }
 
   protected function recordStatistics() {
-    $message = "API calls: $this->apiRequestsMade Records saved: $this->recordsSaved Start LI: $this->startingLiServiceRequestId Start FI: $this->startingFiServiceRequestId";
+    $message = "API calls: $this->apiRequestsMade Records saved: $this->recordsSaved Start LI: $this->startingLiServiceRequestId Start FI: $this->startingFiServiceRequestId Existing reports skipped: $this->existingReportsSkipped";
     \Drupal::logger('Boston 311 Reports')->notice($message);
   }
 }
