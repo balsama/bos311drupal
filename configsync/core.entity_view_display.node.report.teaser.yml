@@ -15,6 +15,7 @@ dependencies:
     - field.field.node.report.field_status
     - field.field.node.report.field_status_notes
     - field.field.node.report.field_updated_datetime
+    - field.field.node.report.field_zip_code
     - node.type.report
   module:
     - user
@@ -40,3 +41,4 @@ hidden:
   field_status: true
   field_status_notes: true
   field_updated_datetime: true
+  field_zip_code: true

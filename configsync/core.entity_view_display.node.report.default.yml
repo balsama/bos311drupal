@@ -14,6 +14,7 @@ dependencies:
     - field.field.node.report.field_status
     - field.field.node.report.field_status_notes
     - field.field.node.report.field_updated_datetime
+    - field.field.node.report.field_zip_code
     - node.type.report
   module:
     - datetime
@@ -116,6 +117,14 @@ content:
       timezone_override: ''
     third_party_settings: {  }
     type: datetime_default
+    region: content
+  field_zip_code:
+    weight: 117
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
     region: content
   links:
     weight: 100

@@ -106,6 +106,9 @@ class Record {
     $values['field_service_name'] = [
       'target_id' => $this->mapServiceName($this->service_name),
     ];
+
+    $values['field_zip_code'] = $this->findZip($this->latitude, $this->longitude);
+
     $values['created'] = strtotime($this->requested_datetime);
     $values['changed'] = ($this->updated_datetime) ? strtotime($this->updated_datetime) : strtotime($this->requested_datetime);
 
@@ -232,6 +235,26 @@ class Record {
   protected function cleanChars($string) {
     $cleanString = preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', $string);
     return $cleanString;
+  }
+
+  public static function findZip($lat, $long) {
+    $zips = json_decode(file_get_contents(drupal_get_path('module', 'bos311') . '/data/us-zip-code-latitude-and-longitude.json'));
+    $zipDiffs = [];
+    foreach ($zips as $zip) {
+      $diffLat = abs(abs($zip->fields->latitude) - abs($lat));
+      $diffLong = abs(abs($zip->fields->longitude) - abs($long));
+      $diff = $diffLat + $diffLong;
+      $zipDiffs[] = [
+        'zip' => $zip->fields->zip,
+        'diff' => $diff,
+      ];
+    }
+
+    usort($zipDiffs, function ($item1, $item2) {
+      return $item1['diff'] <=> $item2['diff'];
+    });
+
+    return $zipDiffs[0]['zip'];
   }
 
 }

@@ -14,9 +14,11 @@ dependencies:
     - field.field.node.report.field_status
     - field.field.node.report.field_status_notes
     - field.field.node.report.field_updated_datetime
+    - field.field.node.report.field_zip_code
     - node.type.report
   module:
     - datetime
+    - path
 id: node.report.default
 targetEntityType: node
 bundle: report
@@ -110,6 +112,20 @@ content:
     third_party_settings: {  }
     type: datetime_default
     region: content
+  field_zip_code:
+    weight: 137
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   promote:
     type: boolean_checkbox
     settings:
