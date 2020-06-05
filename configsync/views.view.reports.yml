@@ -69,13 +69,21 @@ display:
           summary: ''
           description: ''
           columns:
+            view_node: view_node
             nid: nid
-            title: title
+            field_description: field_description
             field_requested_datetime: field_requested_datetime
             field_service_name: field_service_name
             field_address: field_address
             field_media_url: field_media_url
           info:
+            view_node:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             nid:
               sortable: false
               default_sort_order: asc
@@ -83,8 +91,8 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            title:
-              sortable: true
+            field_description:
+              sortable: false
               default_sort_order: asc
               align: ''
               separator: ''
@@ -118,7 +126,7 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-          default: '-1'
+          default: field_requested_datetime
           empty_table: true
       row:
         type: fields
