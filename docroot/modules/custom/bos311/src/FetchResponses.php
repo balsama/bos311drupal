@@ -52,9 +52,8 @@ class FetchResponses {
       $serviceRequestId = $this->findStartingFiServiceRequestId();
     }
     $record = $this->getRecord($serviceRequestId);
-    if ($record) {
-      $this->storeLastSavedRecordId($serviceRequestId);
-    }
+    
+    $this->storeLastSavedRecordId($serviceRequestId);
     $nextServiceRequestId = $serviceRequestId - 1;
     if (($this->startingFiServiceRequestId - $nextServiceRequestId) < $this->numberToGet) {
       $this->doFetchIndividualRecordsFi($serviceRequestId - 1);
