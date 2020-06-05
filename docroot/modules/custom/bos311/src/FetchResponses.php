@@ -8,7 +8,7 @@ class FetchResponses {
   protected Response $response;
   protected string $startingLiServiceRequestId;
   protected string $startingFiServiceRequestId;
-  protected $numberToGet = 10;
+  protected $numberToGet = 500;
   protected $recordsSaved = 0;
   protected $apiRequestsMade = 0;
   protected $existingReportsSkipped = 0;
