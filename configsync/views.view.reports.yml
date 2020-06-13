@@ -12,7 +12,7 @@ dependencies:
     - system.menu.main
     - taxonomy.vocabulary.service
   content:
-    - 'taxonomy_term:service:9df16489-5f61-4db0-9dda-befe86807e73'
+    - 'taxonomy_term:service:a4baef82-0a91-46ed-b65e-f247076b6a57'
   module:
     - datetime
     - node
@@ -39,7 +39,7 @@ display:
       query:
         type: views_query
       exposed_form:
-        type: basic
+        type: input_required
         options:
           submit_button: Find
           reset_button: true
@@ -48,6 +48,8 @@ display:
           expose_sort_order: true
           sort_asc_label: Asc
           sort_desc_label: Desc
+          text_input_required: 'Use the form above to search for reports.'
+          text_input_required_format: html
       pager:
         type: full
         options:
