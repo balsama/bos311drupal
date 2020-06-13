@@ -900,7 +900,7 @@ display:
           group_type: group
           admin_label: ''
           empty: false
-          content: "<p>Displaying <strong>@start</strong> - <strong>@end</strong> of <strong>@total</strong> reports found</p>\r\n<p>Click on a report title for more information about it.<p>\r\n<p>Use the form below to search for reports. All fields are optional. Leave blank for all results</p>"
+          content: "<p>Displaying <strong>@start</strong> - <strong>@end</strong> of <strong>@total</strong> reports found</p>\r\n<p>Click on a report title for more information about it.<p>\r\n<p>Use the form below to search for reports. All fields are optional. Leave blank for all results. Filters that return a large number of results may take several seconds to complete.</p>"
           plugin_id: result
     display_plugin: default
     display_title: Master
