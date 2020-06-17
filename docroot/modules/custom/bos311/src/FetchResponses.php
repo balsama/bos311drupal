@@ -2,140 +2,101 @@
 
 namespace Drupal\bos311;
 
-class FetchResponses {
+class FetchResponses
+{
 
-  protected array $services;
-  protected Response $response;
-  protected string $startingLiServiceRequestId;
-  protected string $startingFiServiceRequestId;
-  protected $numberToGet = 500;
-  protected $recordsSaved = 0;
-  protected $apiRequestsMade = 0;
-  protected $existingReportsSkipped = 0;
+    private array $services;
+    private Response $response;
+    private string $startingLiServiceRequestId;
+    private string $startingFiServiceRequestId;
+    private $numberToGet = 500;
+    private $recordsSaved = 0;
+    private $apiRequestsMade = 0;
+    private $highestLocalServiceRequestId;
+    private $highestRemoteServiceRequestId;
+    private $lowestLocalServiceRequestId;
+    private $serviceRequestId;
+    private $rawRecord;
 
-  public function __construct() {
-    $this->response = new Response();
-  }
 
-  public function doFetchIndividualRecords() {
-    $this->doFetchIndividualRecordsLi(null);
-    $this->doFetchIndividualRecordsLiSkipped();
-    $this->doFetchIndividualRecordsFi(null);
-    $this->recordStatistics();
-  }
-
-  protected function doFetchIndividualRecordsLi($serviceRequestId = null) {
-    if ($serviceRequestId == null) {
-      $serviceRequestId = $this->findLatestServiceRequestId();
-      $this->startingLiServiceRequestId = $serviceRequestId;
+    public function __construct()
+    {
+        $this->response = new Response();
+        $this->highestLocalServiceRequestId = $this->findHighestLocalServiceRequestId();
+        $this->lowestLocalServiceRequestId = $this->findLowestLocalServiceRequestId();
+        $this->highestRemoteServiceRequestId = $this->findHighestRemoteServiceRequestId();
     }
 
-    $record = $this->getRecord($serviceRequestId);
-    $nextServiceRequestId = $serviceRequestId - 1;
-
-    $existingReport = \Drupal::service('entity.repository')->loadEntityByUuid('node', $nextServiceRequestId);
-    if ($existingReport) {
-      // If $nextServiceRequestID already exists. If so, we can move on to the getting the FI ones.
-      // meh. Are we?
-      return;
-    }
-    if ($nextServiceRequestId > ($this->startingLiServiceRequestId - $this->numberToGet)) {
-      $this->doFetchIndividualRecordsLi($serviceRequestId - 1);
-    }
-    return;
-  }
-
-  protected function doFetchIndividualRecordsLiSkipped() {
-    // This is for remaining LI reports before the first FI report.
-  }
-
-  protected function doFetchIndividualRecordsFi($serviceRequestId = null) {
-    if ($serviceRequestId == null) {
-      $serviceRequestId = $this->findStartingFiServiceRequestId();
-    }
-    $record = $this->getRecord($serviceRequestId);
-
-    $this->storeLastSavedRecordId($serviceRequestId);
-    $nextServiceRequestId = $serviceRequestId - 1;
-    if (($this->startingFiServiceRequestId - $nextServiceRequestId) < $this->numberToGet) {
-      $this->doFetchIndividualRecordsFi($serviceRequestId - 1);
-    }
-  }
-
-  protected function findStartingFiServiceRequestId() {
-    // Get the latest node in case we haven't set the last-record-uuid yet
-    $nid = \Drupal::entityQuery('node')
-      ->condition('type','report')
-      ->range(0, 1)
-      ->sort('nid', 'DESC')
-      ->execute();
-    $node = \Drupal::entityTypeManager()->getStorage('node')->load(reset($nid));
-    $backupStart = $node->uuid();
-
-    $serviceRequestId = (\Drupal::state()->get('last-record-uuid', $backupStart) - 1);
-    if (!is_numeric($serviceRequestId)) {
-      $serviceRequestId = $this->findStartingFiServiceRequestId();
-    }
-    $this->startingFiServiceRequestId = $serviceRequestId;
-    return $serviceRequestId;
-  }
-
-  protected function findLatestServiceRequestId() {
-    $response = $this->response->fetch("https://mayors24.cityofboston.gov/open311/v2/requests.json");
-    $objResponse = json_decode($response);
-    $recordToUse = reset($objResponse);
-
-    foreach ($objResponse as $record) {
-      // If one of the first 50 responses is open, use that request ID as the starting point since it will be higher
-      // than any recently closed ones. If not, fall back to the first record.
-      if ($record->status == "open") {
-        $recordToUse = $record;
-        break;
-      }
+    public function doFetchRecords()
+    {
+        $this->doFetchRecordsLi();
+        $this->doFetchRecordsFi();
+        $this->recordStatistics();
     }
 
-    $firstResponseServiceRequestId = $recordToUse->service_request_id;
-    return $firstResponseServiceRequestId;
-  }
+    private function doFetchRecordsLi()
+    {
+        if (!$this->serviceRequestId) {
+            $this->serviceRequestId = $this->highestLocalServiceRequestId + 1;
+        }
+        if ($this->serviceRequestId > $this->highestRemoteServiceRequestId) {
+            unset($this->serviceRequestId);
+        }
 
-  /**
-   * Fetches a single record and stores it as a Record node.
-   */
-  protected function getRecord($service_request_id) {
-    $rawRecord = json_decode($this->response->fetch("https://mayors24.cityofboston.gov/open311/v2/requests.json?service_request_id=$service_request_id"));
-    $this->apiRequestsMade++;
+        $this->processRecord();
 
-    if (count($rawRecord)) {
-      if ($savedRecord = $this->saveRecord($rawRecord[0], $service_request_id)) {
-        return $savedRecord;
-      }
+        $this->serviceRequestId = $this->serviceRequestId + 1;
+        $this->doFetchRecordsLi();
     }
-  }
 
-  /**
-   * Saves a record!!
-   * @param $rawRecord
-   */
-  protected function saveRecord($rawRecord, $service_request_id) {
-    if (!$rawRecord) {
-      return;
-    }
-    $record = new Record($rawRecord);
-    if ($newRecord = $record->createRecord()) {
-      $this->recordsSaved++;
-      return $newRecord;
-    }
-  }
+    private function doFetchRecordsFi() {
+        if (!$this->serviceRequestId) {
+            $this->serviceRequestId = $this->findLowestLocalServiceRequestId();
+        }
 
-  protected function storeLastSavedRecordId($service_request_id) {
-    if (!is_numeric($service_request_id)) {
-      $service_request_id = \Drupal::state()->get('last-record-uuid', $this->findStartingFiServiceRequestId());
-    }
-    \Drupal::state()->set('last-record-uuid', $service_request_id);
-  }
+        $this->processRecord();
 
-  protected function recordStatistics() {
-    $message = "API calls: $this->apiRequestsMade Records saved: $this->recordsSaved Start LI: $this->startingLiServiceRequestId Start FI: $this->startingFiServiceRequestId Existing reports skipped: $this->existingReportsSkipped";
-    \Drupal::logger('Boston 311 Reports')->notice($message);
-  }
+        $this->serviceRequestId = $this->serviceRequestId - 1;
+        $this->doFetchRecordsFi();
+    }
+
+    protected function fetchRawRecord() {
+        $rawRecord = json_decode($this->response->fetch("https://mayors24.cityofboston.gov/open311/v2/requests.json?service_request_id=$this->serviceRequestId"));
+        $this->apiRequestsMade++;
+        $this->rawRecord = $rawRecord;
+    }
+
+    private function validateRawRecord() {
+        // ...
+    }
+
+    private function saveRecord() {
+        $record = new Record($this->rawRecord);
+        if ($newRecord = $record->saveRecord()) {
+            $this->recordsSaved++;
+            return $newRecord;
+        }
+    }
+
+    private function findHighestLocalServiceRequestId() {
+        // ...
+        return $highestLocalServiceRequestId;
+    }
+
+    private function findHighestRemoteServiceRequestId() {
+      // ...
+      return $highestRemoteServiceRequestId();
+    }
+
+    private function findLowestLocalServiceRequestId() {
+        // ...
+        return $lowestLocalServiceRequestId;
+    }
+
+    private function processRecord() {
+        $this->fetchRawRecord();
+        $this->validateRawRecord();
+        $this->saveRecord();
+    }
+
 }

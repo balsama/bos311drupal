@@ -10,7 +10,7 @@ class Bos311Controller extends ControllerBase {
 
   public function bos311() {
     $fetch = new \Drupal\bos311\FetchResponses();
-    $fetch->doFetchIndividualRecords();
+    $fetch->doFetchRecords();
 
     $element = [
       "#markup" => "<h2>Hello (boston) world ;)</h2>"

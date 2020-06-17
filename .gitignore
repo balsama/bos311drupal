@@ -15,3 +15,6 @@ vendor/
 
 # Dev DB
 /fixtures/.development
+
+# PHPStorm
+.idea
