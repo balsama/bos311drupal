@@ -21,7 +21,8 @@ class Record
     private $media_url;
     private $updated_datetime;
     private $locationData;
-    private $apiKey;
+
+    private $nominatimServer = 'https://nominatim.openstreetmap.org';
 
     /**
      * Record constructor.
@@ -32,7 +33,6 @@ class Record
         foreach ($rawRecord as $key => $value) {
             $this->$key = $this->cleanChars($value);
         }
-        $this->setApiKey();
         $this->fetchLocationData();
         $this->gatherValues();
     }
@@ -64,15 +64,10 @@ class Record
     }
 
     private function fetchLocationData() {
-      $url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$this->lat,$this->long&key=$this->apiKey";
+      $url = "$this->nominatimServer/reverse?lat=$this->lat&lon=$this->long&format=json";
       $response = Response::fetch($url);
-      if ($response->status !== "OK") {
-          $this->zip = 'unknown';
-          $this->neighborhood = 'unknown';
-          return;
-      }
+
       $this->locationData = $response;
-      // ...
     }
 
     /**
@@ -113,14 +108,13 @@ class Record
         return $term->id();
     }
 
+    private function findZip() {
+        $foo = 21;
+    }
+
     private function cleanChars($string) {
         $cleanString = preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', $string);
         return $cleanString;
-    }
-
-    private function setApiKey() {
-        $apiKey = file_get_contents($_SERVER['HOME'] . '/keys/google-geolocation-api.key');
-        $this->apiKey = $apiKey;
     }
 
 }
