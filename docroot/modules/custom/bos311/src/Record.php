@@ -2,12 +2,10 @@
 
 namespace Drupal\bos311;
 
-use Drupal\Core\Database\IntegrityConstraintViolationException;
 use Drupal\Core\Entity\EntityRepository;
 use Drupal\Core\Entity\EntityStorageException;
 use \Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;
-use function GuzzleHttp\Psr7\str;
 
 class Record
 {
@@ -18,8 +16,8 @@ class Record
     private $status_notes;
     private $requested_datetime;
     private $address;
-    private $latitude;
-    private $longitude;
+    private $lat;
+    private $long;
     private $media_url;
     private $updated_datetime;
     private $locationData;
@@ -61,12 +59,20 @@ class Record
             'target_id' => $this->mapServiceName($this->service_name),
         ];
 
-        $values['field_zip_code'] = $this->findZip($this->latitude, $this->longitude);
-        $values['field_neighborhood'] = $this->find
+        $values['field_zip_code'] = $this->findZip();
+        $values['field_neighborhood'] = $this->findNeighborhood();
     }
 
     private function fetchLocationData() {
-
+      $url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$this->lat,$this->long&key=$this->apiKey";
+      $response = Response::fetch($url);
+      if ($response->status !== "OK") {
+          $this->zip = 'unknown';
+          $this->neighborhood = 'unknown';
+          return;
+      }
+      $this->locationData = $response;
+      // ...
     }
 
     /**
@@ -113,7 +119,7 @@ class Record
     }
 
     private function setApiKey() {
-        $apiKey = file_get_contents('~/google-geolocation-api.key');
+        $apiKey = file_get_contents($_SERVER['HOME'] . '/keys/google-geolocation-api.key');
         $this->apiKey = $apiKey;
     }
 

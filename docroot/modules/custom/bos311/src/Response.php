@@ -8,20 +8,19 @@ use GuzzleHttp\Exception\ServerException;
 
 class Response {
 
-  public function fetch($url, $retryOnError = true)
+  public static function fetch($url, $retryOnError = 10)
   {
     $client = new Client();
     try {
-      /**
-       * @var $response ResponseInterface $response
-       */
+       /* @var $response ResponseInterface $response */
       $response = $client->get($url);
       $body = $response->getBody();
       $body = \GuzzleHttp\json_decode($body);
-      $body = \GuzzleHttp\json_encode($body);
       return $body;
-    } catch (ServerException $e) {
+    }
+    catch (ServerException $e) {
       if ($retryOnError) {
+        $retryOnError--;
         return self::fetch($url, $retryOnError);
       }
       echo 'Caught response: ' . $e->getResponse()->getStatusCode();

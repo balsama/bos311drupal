@@ -7,12 +7,3 @@ function bos311_cron() {
   $fetch->doFetchRecords();
 }
 
-function bos311_entity_presave(EntityInterface $entity) {
-    /*
-  if (!$entity->bos311UpdatedDatetime) {
-    return;
-  }
-  // Sets Report nodes' updated time to when it was actually update in the 31 system.
-  $entity->setChangedTime($entity->bos311UpdatedDatetime);
-    */
-}
