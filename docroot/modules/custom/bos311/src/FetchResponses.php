@@ -93,7 +93,7 @@ class FetchResponses
     }
 
     private function saveRecord() {
-        $record = new Record($this->rawRecord);
+        $record = new Record($this->rawRecord, $this->serviceRequestId);
         if ($newRecord = $record->saveRecord()) {
             $this->recordsSaved++;
             return $newRecord;
