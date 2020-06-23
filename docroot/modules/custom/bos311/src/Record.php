@@ -116,8 +116,10 @@ class Record
             ->execute();
         if ($nids) {
             $node = \Drupal::entityTypeManager()->getStorage('node')->load(reset($nids));
+            if ($node) {
+                $this->existingReport = $node;
+            }
         }
-        $this->existingReport = $node;
     }
 
     /**
