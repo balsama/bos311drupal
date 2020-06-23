@@ -42,12 +42,12 @@ class FetchResponses
         }
         if ($this->serviceRequestId > $this->highestRemoteServiceRequestId) {
             // Reached the top of the list.
-            unset($this->serviceRequestId);
+            $this->serviceRequestId = null;
             return;
         }
         if (($this->serviceRequestId - $this->highestLocalServiceRequestId) > $this->numberOfRecordsToGetPerRun) {
             // Reached the max number of records to get per run.
-            unset($this->serviceRequestId);
+            $this->serviceRequestId = null;
             return;
         }
 
