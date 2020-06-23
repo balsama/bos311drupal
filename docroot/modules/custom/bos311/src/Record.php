@@ -177,9 +177,17 @@ class Record
     private function findNeighborhoodName() {
         $default = 'unknown';
         if (!is_object($this->locationData)) {
+            $neighborhood = $this->extractNeighborhoodFromAddress();
+            if ($neighborhood) {
+                return $neighborhood;
+            }
             return $default;
         }
         if (!is_object($this->locationData->address)) {
+            $neighborhood = $this->extractNeighborhoodFromAddress();
+            if ($neighborhood) {
+                return $neighborhood;
+            }
             return $default;
         }
         if (!property_exists($this->locationData->address, 'suburb')) {
@@ -190,6 +198,10 @@ class Record
                 $neighborhoodName = $this->locationData->address->town;
             }
             else {
+                $neighborhood = $this->extractNeighborhoodFromAddress();
+                if ($neighborhood) {
+                    return $neighborhood;
+                }
                 return $default;
             }
         }
@@ -249,4 +261,37 @@ class Record
         return $cleanString;
     }
 
+    private function extractNeighborhoodFromAddress() {
+        $maybeNeighborhoods = [
+            'Hyde Park',
+            'Jamaica Plain',
+            'Mattapan',
+            'Mission Hill',
+            'North End',
+            'Roslindale',
+            'Roxbury',
+            'South Boston',
+            'South End',
+            'West End',
+            'West Roxbury',
+            'Allston',
+            'Back Bay',
+            'Bay Village',
+            'Beacon Hill',
+            'Brighton',
+            'Charlestown',
+            'Chinatown',
+            'Leather District',
+            'Dorchester',
+            'Downtown',
+            'East Boston',
+            'Fenway',
+        ];
+        foreach ($maybeNeighborhoods as $neighborhood) {
+            if (strpos($this->address, $neighborhood) !== false) {
+                return $neighborhood;
+            }
+        }
+        return;
+    }
 }

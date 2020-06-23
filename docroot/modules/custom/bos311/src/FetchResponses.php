@@ -10,6 +10,7 @@ class FetchResponses
     private array $services;
     private $numberOfRecordsToGetPerRun = 300;
     private $recordsSaved = 0;
+    private $recordsFailedToSave = 0;
     private $apiRequestsMade = 0;
     private $serviceRequestId;
     private $rawRecord;
@@ -98,6 +99,10 @@ class FetchResponses
             $this->recordsSaved++;
             return $newRecord;
         }
+        else {
+            $this->recordsFailedToSave++;
+            \Drupal::logger('Boston 311 Reports')->notice('Failed to save Request ID: ' . $this->serviceRequestId);
+        }
     }
 
     private function findHighestRemoteServiceRequestId() {
@@ -166,7 +171,21 @@ class FetchResponses
     }
 
     private function recordStatistics() {
-        $message = "API calls: $this->apiRequestsMade Records saved: $this->recordsSaved Start LI: $this->highestLocalServiceRequestId Start FI: $this->lowestLocalServiceRequestId";
+        $messageParts = [
+            'API calls:' => $this->apiRequestsMade,
+            'Records saved:' => $this->recordsSaved,
+            'Records failed' => $this->recordsFailedToSave,
+            'Start LI:' => $this->highestLocalServiceRequestId,
+            'Start FI:' => $this->lowestLocalServiceRequestId,
+        ];
+
+        $message = '';
+
+        foreach ($messageParts as $name => $stat) {
+            $message = $message . "<li><strong>$name:</strong> $stat</li>";
+        }
+        $message = "<ul>$message</ul>";
+
         \Drupal::logger('Boston 311 Reports')->notice($message);
     }
 
