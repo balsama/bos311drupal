@@ -1,17 +1,17 @@
-uuid: b92cb269-e6eb-4fdc-8df3-f78e5ab135ba
+uuid: cba8ad68-80a2-47e1-aeda-c256cada3f26
 langcode: en
 status: true
 dependencies:
   module:
     - system
   theme:
-    - bos311
+    - bos311bootstrap
 _core:
-  default_config_hash: QTwkfDaGeBUk6aerktJBDXso4fCsqLTQOuWKXE1xMPU
-id: bos311_content
-theme: bos311
+  default_config_hash: aJ6ps0sJm9MtQffqINgRms1JaSQgjsg68REaPdN-BGk
+id: bos311bootstrap_content
+theme: bos311bootstrap
 region: content
-weight: 0
+weight: -1
 provider: null
 plugin: system_main_block
 settings:

@@ -1,22 +1,22 @@
-uuid: fab00330-f6cc-4df6-b352-00018fe725ea
+uuid: a9fb6308-a105-4f9f-afcb-b9ba771c707d
 langcode: en
 status: true
 dependencies:
   module:
     - system
   theme:
-    - bos311
+    - bootstrap4
 _core:
-  default_config_hash: iIy-YIc9d9s1isAtTIKWDBKd6kd2r6LxoYz_-hkLJco
-id: bos311_messages
-theme: bos311
-region: highlighted
-weight: -3
+  default_config_hash: tZtWC6EKIYALVtpV4mPz79GsLZD6IFWb7Wk1B7Rd8Go
+id: bootstrap4_messages
+theme: bootstrap4
+region: content
+weight: -7
 provider: null
 plugin: system_messages_block
 settings:
   id: system_messages_block
-  label: 'Status messages'
+  label: Messages
   provider: system
   label_display: '0'
 visibility: {  }

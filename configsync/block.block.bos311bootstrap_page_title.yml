@@ -1,15 +1,15 @@
-uuid: e921031f-626a-47ed-8053-812605211356
+uuid: 3361a80e-8c7a-46e8-abeb-563ac93cbf03
 langcode: en
 status: true
 dependencies:
   theme:
-    - stark
+    - bos311bootstrap
 _core:
-  default_config_hash: 8yptDf6WrXxeyevUz4nP5vfr7BtxQqCBMninhV2IJ1g
-id: stark_page_title
-theme: stark
+  default_config_hash: _0ZyPKUqcQMu9FlcCoa_Y-No4zdv-wUNF4hlSj60yi0
+id: bos311bootstrap_page_title
+theme: bos311bootstrap
 region: content
-weight: -30
+weight: -6
 provider: null
 plugin: page_title_block
 settings:

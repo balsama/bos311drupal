@@ -26,7 +26,7 @@ bundle: report
 mode: default
 content:
   field_address:
-    weight: 108
+    weight: 3
     label: above
     settings:
       link_to_entity: false
@@ -34,14 +34,14 @@ content:
     type: string
     region: content
   field_description:
-    weight: 105
+    weight: 2
     label: above
     settings: {  }
     third_party_settings: {  }
     type: basic_string
     region: content
   field_latitude:
-    weight: 115
+    weight: 7
     label: above
     settings:
       thousand_separator: ''
@@ -52,7 +52,7 @@ content:
     type: number_decimal
     region: content
   field_longitude:
-    weight: 116
+    weight: 8
     label: above
     settings:
       thousand_separator: ''
@@ -63,7 +63,7 @@ content:
     type: number_decimal
     region: content
   field_media_url:
-    weight: 111
+    weight: 13
     label: above
     settings:
       link_to_entity: false
@@ -71,7 +71,7 @@ content:
     type: string
     region: content
   field_neighborhood:
-    weight: 120
+    weight: 12
     label: above
     settings:
       link: true
@@ -79,7 +79,7 @@ content:
     type: entity_reference_label
     region: content
   field_requested_timestamp:
-    weight: 118
+    weight: 10
     label: above
     settings:
       date_format: medium
@@ -89,7 +89,7 @@ content:
     type: timestamp
     region: content
   field_service_name:
-    weight: 112
+    weight: 4
     label: above
     settings:
       link: false
@@ -97,7 +97,7 @@ content:
     type: entity_reference_label
     region: content
   field_service_request_id:
-    weight: 113
+    weight: 5
     label: above
     settings:
       link_to_entity: false
@@ -105,21 +105,21 @@ content:
     type: string
     region: content
   field_status:
-    weight: 114
+    weight: 6
     label: above
     settings: {  }
     third_party_settings: {  }
     type: list_default
     region: content
   field_status_notes:
-    weight: 103
+    weight: 1
     label: above
     settings: {  }
     third_party_settings: {  }
     type: basic_string
     region: content
   field_updated_timestamp:
-    weight: 119
+    weight: 11
     label: above
     settings:
       date_format: medium
@@ -129,7 +129,7 @@ content:
     type: timestamp
     region: content
   field_zip_code:
-    weight: 117
+    weight: 9
     label: above
     settings:
       link_to_entity: false
@@ -137,7 +137,7 @@ content:
     type: string
     region: content
   links:
-    weight: 100
+    weight: 0
     region: content
     settings: {  }
     third_party_settings: {  }

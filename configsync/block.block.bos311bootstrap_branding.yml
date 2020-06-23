@@ -1,17 +1,17 @@
-uuid: e53032cb-f3ab-43f2-84bb-69264c3e5c5e
+uuid: 0ffbf1cf-b654-43ab-be97-a36cb3dc02b7
 langcode: en
 status: true
 dependencies:
   module:
     - system
   theme:
-    - stark
+    - bos311bootstrap
 _core:
-  default_config_hash: fRKXNB91UxDvEMkzCR8ZBsawfC6Fqbme2gtobei3gu4
-id: stark_branding
-theme: stark
-region: header
-weight: 0
+  default_config_hash: 0XmTH5dbJRl-fsDBgX10MzeFMarkhKpzU7ZGdGPfAMU
+id: bos311bootstrap_branding
+theme: bos311bootstrap
+region: nav_branding
+weight: -6
 provider: null
 plugin: system_branding_block
 settings:
@@ -21,5 +21,5 @@ settings:
   label_display: '0'
   use_site_logo: true
   use_site_name: true
-  use_site_slogan: true
+  use_site_slogan: false
 visibility: {  }

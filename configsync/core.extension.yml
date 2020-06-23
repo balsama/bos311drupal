@@ -34,9 +34,11 @@ module:
   views: 10
   minimal: 1000
 theme:
-  stark: 0
   claro: 0
-  bos311: 0
+  stable: 0
+  classy: 0
+  bootstrap4: 0
+  bos311bootstrap: 0
 profile: minimal
 _core:
   default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
