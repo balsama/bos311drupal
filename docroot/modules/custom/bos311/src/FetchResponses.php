@@ -8,7 +8,7 @@ class FetchResponses
 {
 
     private array $services;
-    private $numberOfRecordsToGetPerRun = 500;
+    private $numberOfRecordsToGetPerRun = 300;
     private $recordsSaved = 0;
     private $apiRequestsMade = 0;
     private $serviceRequestId;
@@ -163,6 +163,11 @@ class FetchResponses
         if ($this->isValidRawRecord()) {
             $this->saveRecord();
         }
+    }
+
+    private function recordStatistics() {
+        $message = "API calls: $this->apiRequestsMade Records saved: $this->recordsSaved Start LI: $this->highestLocalServiceRequestId Start FI: $this->lowestLocalServiceRequestId";
+        \Drupal::logger('Boston 311 Reports')->notice($message);
     }
 
 }

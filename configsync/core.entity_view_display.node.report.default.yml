@@ -8,16 +8,16 @@ dependencies:
     - field.field.node.report.field_latitude
     - field.field.node.report.field_longitude
     - field.field.node.report.field_media_url
-    - field.field.node.report.field_requested_datetime
+    - field.field.node.report.field_neighborhood
+    - field.field.node.report.field_requested_timestamp
     - field.field.node.report.field_service_name
     - field.field.node.report.field_service_request_id
     - field.field.node.report.field_status
     - field.field.node.report.field_status_notes
-    - field.field.node.report.field_updated_datetime
+    - field.field.node.report.field_updated_timestamp
     - field.field.node.report.field_zip_code
     - node.type.report
   module:
-    - datetime
     - options
     - user
 id: node.report.default
@@ -70,14 +70,23 @@ content:
     third_party_settings: {  }
     type: string
     region: content
-  field_requested_datetime:
-    weight: 106
+  field_neighborhood:
+    weight: 120
     label: above
     settings:
-      timezone_override: America/New_York
-      format_type: the_only_reasonable_format
+      link: true
     third_party_settings: {  }
-    type: datetime_default
+    type: entity_reference_label
+    region: content
+  field_requested_timestamp:
+    weight: 118
+    label: above
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+    third_party_settings: {  }
+    type: timestamp
     region: content
   field_service_name:
     weight: 112
@@ -109,14 +118,15 @@ content:
     third_party_settings: {  }
     type: basic_string
     region: content
-  field_updated_datetime:
-    weight: 107
+  field_updated_timestamp:
+    weight: 119
     label: above
     settings:
-      format_type: medium
-      timezone_override: ''
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
     third_party_settings: {  }
-    type: datetime_default
+    type: timestamp
     region: content
   field_zip_code:
     weight: 117

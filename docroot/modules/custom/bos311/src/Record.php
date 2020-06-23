@@ -38,7 +38,7 @@ class Record
             $this->$key = $this->cleanChars($value);
         }
         // Always use the Service Request ID that was used to fetch the record rather than the one provided by the
-        // record.
+        // record because the one's provided can be inconsistent.
         $this->service_request_id = $serviceRequestId;
         $this->validateTimestampFields();
         $this->checkForExistingReport();
@@ -79,7 +79,7 @@ class Record
             'target_id' => $this->mapVocabTerm($this->service_name, 'service'),
         ];
         $values['field_neighborhood'] = [
-            'target_id' => $this->mapVocabTerm($this->findNeighborhoodName(), 'neighborhood'),
+            'target_id' => $this->mapVocabTerm($this->findNeighborhoodName(), 'neighborhoods'),
         ];
         $values['field_zip_code'] = $this->findZip();
 
@@ -183,8 +183,39 @@ class Record
             return $default;
         }
         if (!property_exists($this->locationData->address, 'suburb')) {
-            return $default;
+            if (property_exists($this->locationData->address, 'neighbourhood')) {
+                $neighborhoodName = $this->locationData->address->neighbourhood;
+            }
+            elseif (property_exists($this->locationData->address, 'town')) {
+                $neighborhoodName = $this->locationData->address->town;
+            }
+            else {
+                return $default;
+            }
         }
+
+        if (isset($neighborhoodName)) {
+            switch ($neighborhoodName) {
+                case 'Orient Heights':
+                    return 'East Boston';
+                    break;
+                case 'Highland':
+                    return 'West Roxbury';
+                    break;
+                case 'Mattapan':
+                    return 'Mattapan';
+                    break;
+                case 'Lower Mills' || 'Neponset':
+                    return 'Dorchester';
+                    break;
+                case 'Stonybrook Village':
+                    return 'Hyde Park';
+                    break;
+                default:
+                    return $neighborhoodName;
+            }
+        }
+
         return $this->locationData->address->suburb;
     }
 

@@ -6,15 +6,15 @@ dependencies:
     - field.storage.node.field_address
     - field.storage.node.field_description
     - field.storage.node.field_media_url
-    - field.storage.node.field_requested_datetime
+    - field.storage.node.field_neighborhood
     - field.storage.node.field_service_name
     - node.type.report
     - system.menu.main
+    - taxonomy.vocabulary.neighborhoods
     - taxonomy.vocabulary.service
   content:
-    - 'taxonomy_term:service:a4baef82-0a91-46ed-b65e-f247076b6a57'
+    - 'taxonomy_term:service:3a9fc0a6-786e-41d5-9c97-7bb2b1f67876'
   module:
-    - datetime
     - node
     - taxonomy
     - user
@@ -314,70 +314,6 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        field_requested_datetime:
-          id: field_requested_datetime
-          table: node__field_requested_datetime
-          field: field_requested_datetime
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: Created
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: datetime_default
-          settings:
-            timezone_override: ''
-            format_type: the_only_reasonable_format
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          plugin_id: field
         field_service_name:
           id: field_service_name
           table: node__field_service_name
@@ -557,6 +493,69 @@ display:
           settings:
             link_to_entity: true
           group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_neighborhood:
+          id: field_neighborhood
+          table: node__field_neighborhood
+          field: field_neighborhood
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: Neighborhood
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: false
+          group_column: target_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -882,7 +881,7 @@ display:
           expose:
             operator_id: field_service_request_id_value_op
             label: 'Request ID'
-            description: 'Use to search for a specific report'
+            description: ''
             use_operator: false
             operator: field_service_request_id_value_op
             operator_limit_selection: false
@@ -908,6 +907,97 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           plugin_id: string
+        field_neighborhood_target_id:
+          id: field_neighborhood_target_id
+          table: node__field_neighborhood
+          field: field_neighborhood_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_neighborhood_target_id_op
+            label: 'Neighborhood (field_neighborhood)'
+            description: ''
+            use_operator: false
+            operator: field_neighborhood_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_neighborhood_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          type: select
+          limit: true
+          vid: neighborhoods
+          hierarchy: false
+          error_message: true
+          plugin_id: taxonomy_index_tid
+        field_requested_timestamp_value:
+          id: field_requested_timestamp_value
+          table: node__field_requested_timestamp
+          field: field_requested_timestamp_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: between
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_requested_timestamp_value_op
+            label: 'Date Requested'
+            description: ''
+            use_operator: false
+            operator: field_requested_timestamp_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_requested_timestamp_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: numeric
       sorts: {  }
       title: 'Boston 311 Reports'
       empty:
@@ -960,7 +1050,7 @@ display:
         - 'config:field.storage.node.field_address'
         - 'config:field.storage.node.field_description'
         - 'config:field.storage.node.field_media_url'
-        - 'config:field.storage.node.field_requested_datetime'
+        - 'config:field.storage.node.field_neighborhood'
         - 'config:field.storage.node.field_service_name'
   page:
     display_options:
@@ -1001,7 +1091,7 @@ display:
         - 'config:field.storage.node.field_address'
         - 'config:field.storage.node.field_description'
         - 'config:field.storage.node.field_media_url'
-        - 'config:field.storage.node.field_requested_datetime'
+        - 'config:field.storage.node.field_neighborhood'
         - 'config:field.storage.node.field_service_name'
   page_1:
     display_plugin: page
@@ -1102,7 +1192,6 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
-        - url
         - url.query_args
         - 'user.node_grants:view'
         - user.permissions
@@ -1110,5 +1199,5 @@ display:
         - 'config:field.storage.node.field_address'
         - 'config:field.storage.node.field_description'
         - 'config:field.storage.node.field_media_url'
-        - 'config:field.storage.node.field_requested_datetime'
+        - 'config:field.storage.node.field_neighborhood'
         - 'config:field.storage.node.field_service_name'
