@@ -1,14 +1,16 @@
-uuid: 88e6c3b9-0520-44a4-a2e6-35b04328eb00
+uuid: 6bfeb9d4-bb4b-41b0-a968-a32b5a2e51a3
 langcode: en
 status: true
 dependencies:
   module:
     - system
   theme:
-    - bos311
-id: poweredbydrupal
-theme: bos311
-region: content
+    - bootstrap4
+_core:
+  default_config_hash: pCYcyBIVbwKUmraga_6Ycz5P-bhQJLJS_8HtOFpMq-o
+id: bootstrap4_powered_by_drupal
+theme: bootstrap4
+region: footer
 weight: 0
 provider: null
 plugin: system_powered_by_block
