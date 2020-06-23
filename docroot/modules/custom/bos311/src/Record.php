@@ -42,7 +42,6 @@ class Record
         // Always use the Service Request ID that was used to fetch the record rather than the one provided by the
         // record because the one's provided can be inconsistent.
         $this->service_request_id = $serviceRequestId;
-        $this->setGoogleApiKey();
         $this->validateTimestampFields();
         $this->checkForExistingReport();
         $this->fetchLocationData();
@@ -201,7 +200,7 @@ class Record
 
         if ($neighborhoodName == 'unknown') {
             // We could use the Google API sparingly when the other one fails.
-            $locationData = Response::fetch($this->googleServer . "?latlng=$this->lat,$this->long&key=$this->apiKey");
+            //$locationData = Response::fetch($this->googleServer . "?latlng=$this->lat,$this->long&key=$this->apiKey");
         }
 
         // Normalize the weird ones that I know about.
