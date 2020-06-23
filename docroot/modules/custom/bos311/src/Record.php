@@ -192,9 +192,15 @@ class Record
                 elseif (property_exists($this->locationData->address, 'city')) {
                     $neighborhoodName = $neighborhood = $this->locationData->address->city;
                 }
+                elseif (property_exists($this->locationData->address, 'town')) {
+                    $neighborhoodName = $neighborhood = $this->locationData->address->town;
+                }
             }
             elseif (property_exists($this->locationData->address, 'city')) {
                 $neighborhoodName = $neighborhood = $this->locationData->address->city;
+            }
+            elseif (property_exists($this->locationData->address, 'town')) {
+                $neighborhoodName = $neighborhood = $this->locationData->address->town;
             }
         }
 
