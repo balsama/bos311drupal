@@ -13,7 +13,7 @@ dependencies:
     - taxonomy.vocabulary.neighborhoods
     - taxonomy.vocabulary.service
   content:
-    - 'taxonomy_term:service:3a9fc0a6-786e-41d5-9c97-7bb2b1f67876'
+    - 'taxonomy_term:neighborhoods:2f4605e2-8d5b-444e-94b4-6fc3b415a1cf'
   module:
     - node
     - taxonomy
@@ -781,6 +781,52 @@ display:
           entity_type: node
           entity_field: type
           plugin_id: bundle
+        field_neighborhood_target_id:
+          id: field_neighborhood_target_id
+          table: node__field_neighborhood
+          field: field_neighborhood_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_neighborhood_target_id_op
+            label: Neighborhood
+            description: ''
+            use_operator: false
+            operator: field_neighborhood_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_neighborhood_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          type: select
+          limit: true
+          vid: neighborhoods
+          hierarchy: false
+          error_message: true
+          plugin_id: taxonomy_index_tid
         field_zip_code_value:
           id: field_zip_code_value
           table: node__field_zip_code
@@ -907,97 +953,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           plugin_id: string
-        field_neighborhood_target_id:
-          id: field_neighborhood_target_id
-          table: node__field_neighborhood
-          field: field_neighborhood_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_neighborhood_target_id_op
-            label: 'Neighborhood (field_neighborhood)'
-            description: ''
-            use_operator: false
-            operator: field_neighborhood_target_id_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: field_neighborhood_target_id
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
-          type: select
-          limit: true
-          vid: neighborhoods
-          hierarchy: false
-          error_message: true
-          plugin_id: taxonomy_index_tid
-        field_requested_timestamp_value:
-          id: field_requested_timestamp_value
-          table: node__field_requested_timestamp
-          field: field_requested_timestamp_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          operator: between
-          value:
-            min: ''
-            max: ''
-            value: ''
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_requested_timestamp_value_op
-            label: 'Date Requested'
-            description: ''
-            use_operator: false
-            operator: field_requested_timestamp_value_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: field_requested_timestamp_value
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-            placeholder: ''
-            min_placeholder: ''
-            max_placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          plugin_id: numeric
       sorts: {  }
       title: 'Boston 311 Reports'
       empty:
