@@ -2,8 +2,6 @@
 
 namespace Drupal\bos311;
 
-use Drupal\Core\Entity\EntityRepository;
-use Drupal\Core\Entity\EntityStorageException;
 use \Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;
 
@@ -22,15 +20,19 @@ class Record
     private $updated_datetime;
     private $locationData;
 
+    private $apiKey;
+
     private array $values;
 
     private $existingReport;
 
     private $nominatimServer = 'https://nominatim.openstreetmap.org';
+    private $googleServer = 'https://maps.googleapis.com/maps/api/geocode/json';
 
     /**
      * Record constructor.
      * @param array $rawRecord
+     * @param integer $serviceRequestId
      */
     public function __construct($rawRecord, $serviceRequestId)
     {
@@ -40,6 +42,7 @@ class Record
         // Always use the Service Request ID that was used to fetch the record rather than the one provided by the
         // record because the one's provided can be inconsistent.
         $this->service_request_id = $serviceRequestId;
+        $this->setGoogleApiKey();
         $this->validateTimestampFields();
         $this->checkForExistingReport();
         $this->fetchLocationData();
@@ -66,7 +69,7 @@ class Record
         $values['type'] = 'report';
         $values['title'] = $this->service_name . ' at ' . $this->address;
         $values['field_service_request_id'] = $this->service_request_id;
-        $values['field_description'] = $this->description;
+        $values['field_description'] = ($this->description) ? $this->description : $this->service_name;
         $values['field_status_notes'] = $this->status_notes;
         $values['field_status'] = $this->status;
         $values['field_requested_timestamp'] = $this->requested_datetime;
@@ -177,60 +180,51 @@ class Record
     }
 
     private function findNeighborhoodName() {
-        $default = 'unknown';
-        if (!is_object($this->locationData)) {
-            $neighborhood = $this->extractNeighborhoodFromAddress();
-            if ($neighborhood) {
-                return $neighborhood;
-            }
-            return $default;
+        $neighborhoodName = 'unknown';
+        if ($neighborhood = $this->extractNeighborhoodFromAddress()) {
+            $neighborhoodName = $neighborhood;
         }
-        if (!is_object($this->locationData->address)) {
-            $neighborhood = $this->extractNeighborhoodFromAddress();
-            if ($neighborhood) {
-                return $neighborhood;
-            }
-            return $default;
-        }
-        if (!property_exists($this->locationData->address, 'suburb')) {
-            if (property_exists($this->locationData->address, 'neighbourhood')) {
-                $neighborhoodName = $this->locationData->address->neighbourhood;
-            }
-            elseif (property_exists($this->locationData->address, 'town')) {
-                $neighborhoodName = $this->locationData->address->town;
-            }
-            else {
-                $neighborhood = $this->extractNeighborhoodFromAddress();
-                if ($neighborhood) {
-                    return $neighborhood;
+        elseif (is_object($this->locationData->address)) {
+            if (property_exists($this->locationData->address, 'suburb')) {
+                $neighborhood = $this->locationData->address->suburb;
+                if (in_array($neighborhood, $this->neighborhoods)) {
+                    $neighborhoodName = $neighborhood;
                 }
-                return $default;
+                elseif (property_exists($this->locationData->address, 'city')) {
+                    $neighborhoodName = $neighborhood = $this->locationData->address->city;
+                }
+            }
+            elseif (property_exists($this->locationData->address, 'city')) {
+                $neighborhoodName = $neighborhood = $this->locationData->address->city;
             }
         }
 
-        if (isset($neighborhoodName)) {
-            switch ($neighborhoodName) {
-                case 'Orient Heights':
-                    return 'East Boston';
-                    break;
-                case 'Highland':
-                    return 'West Roxbury';
-                    break;
-                case 'Mattapan':
-                    return 'Mattapan';
-                    break;
-                case 'Lower Mills' || 'Neponset':
-                    return 'Dorchester';
-                    break;
-                case 'Stonybrook Village':
-                    return 'Hyde Park';
-                    break;
-                default:
-                    return $neighborhoodName;
-            }
+        if ($neighborhoodName == 'unknown') {
+            // We could use the Google API sparingly when the other one fails.
+            $locationData = Response::fetch($this->googleServer . "?latlng=$this->lat,$this->long&key=$this->apiKey");
         }
 
-        return $this->locationData->address->suburb;
+        // Normalize the weird ones that I know about.
+        switch ($neighborhoodName) {
+            case 'Orient Heights':
+                $neighborhoodName = 'East Boston';
+                break;
+            case 'Highland':
+                $neighborhoodName = 'West Roxbury';
+                break;
+            case 'Mattapan':
+                $neighborhoodName = 'Mattapan';
+                break;
+            case 'Lower Mills' || 'Neponset':
+                $neighborhoodName = 'Dorchester';
+                break;
+            case 'Stonybrook Village':
+                $neighborhoodName = 'Hyde Park';
+                break;
+        }
+
+        return $neighborhoodName;
+
     }
 
     private function validateTimestampFields() {
@@ -264,36 +258,43 @@ class Record
     }
 
     private function extractNeighborhoodFromAddress() {
-        $maybeNeighborhoods = [
-            'Hyde Park',
-            'Jamaica Plain',
-            'Mattapan',
-            'Mission Hill',
-            'North End',
-            'Roslindale',
-            'Roxbury',
-            'South Boston',
-            'South End',
-            'West End',
-            'West Roxbury',
-            'Allston',
-            'Back Bay',
-            'Bay Village',
-            'Beacon Hill',
-            'Brighton',
-            'Charlestown',
-            'Chinatown',
-            'Leather District',
-            'Dorchester',
-            'Downtown',
-            'East Boston',
-            'Fenway',
-        ];
-        foreach ($maybeNeighborhoods as $neighborhood) {
+        foreach ($this->neighborhoods as $neighborhood) {
             if (strpos($this->address, $neighborhood) !== false) {
                 return $neighborhood;
             }
         }
         return;
     }
+
+    private function setGoogleApiKey() {
+        $apiKey = file_get_contents($_SERVER['HOME'] . '/keys/google-geolocation-api.key');
+        $this->apiKey = $apiKey;
+    }
+
+    private $neighborhoods = [
+        'Hyde Park',
+        'Jamaica Plain',
+        'Mattapan',
+        'Mission Hill',
+        'North End',
+        'Roslindale',
+        'Roxbury',
+        'South Boston',
+        'South End',
+        'West End',
+        'West Roxbury',
+        'Allston',
+        'Back Bay',
+        'Bay Village',
+        'Beacon Hill',
+        'Brighton',
+        'Charlestown',
+        'Chinatown',
+        'Leather District',
+        'Dorchester',
+        'Downtown',
+        'East Boston',
+        'Fenway',
+    ];
+
 }
