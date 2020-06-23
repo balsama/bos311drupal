@@ -8,7 +8,7 @@ class FetchResponses
 {
 
     private array $services;
-    private $numberOfRecordsToGetPerRun = 300;
+    private $numberOfRecordsToGetPerRun = 500;
     private $recordsSaved = 0;
     private $recordsFailedToSave = 0;
     private $apiRequestsMade = 0;
