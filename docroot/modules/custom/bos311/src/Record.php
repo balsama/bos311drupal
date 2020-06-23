@@ -215,7 +215,8 @@ class Record
             case 'Mattapan':
                 $neighborhoodName = 'Mattapan';
                 break;
-            case 'Lower Mills' || 'Neponset':
+            case 'Lower Mills':
+            case 'Neponset':
                 $neighborhoodName = 'Dorchester';
                 break;
             case 'Stonybrook Village':
