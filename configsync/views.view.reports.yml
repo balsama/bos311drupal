@@ -7,6 +7,7 @@ dependencies:
     - field.storage.node.field_description
     - field.storage.node.field_media_url
     - field.storage.node.field_neighborhood
+    - field.storage.node.field_requested_timestamp
     - field.storage.node.field_service_name
     - node.type.report
     - system.menu.main
@@ -74,10 +75,11 @@ display:
             view_node: view_node
             nid: nid
             field_description: field_description
-            field_requested_datetime: field_requested_datetime
             field_service_name: field_service_name
             field_address: field_address
             field_media_url: field_media_url
+            field_neighborhood: field_neighborhood
+            field_requested_timestamp: field_requested_timestamp
           info:
             view_node:
               sortable: false
@@ -100,13 +102,6 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            field_requested_datetime:
-              sortable: true
-              default_sort_order: desc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: priority-low
             field_service_name:
               sortable: false
               default_sort_order: asc
@@ -128,7 +123,21 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-          default: field_requested_datetime
+            field_neighborhood:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_requested_timestamp:
+              sortable: true
+              default_sort_order: desc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+          default: field_requested_timestamp
           empty_table: true
       row:
         type: fields
@@ -556,6 +565,71 @@ display:
           settings:
             link: false
           group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_requested_timestamp:
+          id: field_requested_timestamp
+          table: node__field_requested_timestamp
+          field: field_requested_timestamp
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: Opened
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: timestamp_ago
+          settings:
+            future_format: '@interval hence'
+            past_format: '@interval ago'
+            granularity: 2
+          group_column: value
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -1006,6 +1080,7 @@ display:
         - 'config:field.storage.node.field_description'
         - 'config:field.storage.node.field_media_url'
         - 'config:field.storage.node.field_neighborhood'
+        - 'config:field.storage.node.field_requested_timestamp'
         - 'config:field.storage.node.field_service_name'
   page:
     display_options:
@@ -1047,6 +1122,7 @@ display:
         - 'config:field.storage.node.field_description'
         - 'config:field.storage.node.field_media_url'
         - 'config:field.storage.node.field_neighborhood'
+        - 'config:field.storage.node.field_requested_timestamp'
         - 'config:field.storage.node.field_service_name'
   page_1:
     display_plugin: page
@@ -1155,4 +1231,5 @@ display:
         - 'config:field.storage.node.field_description'
         - 'config:field.storage.node.field_media_url'
         - 'config:field.storage.node.field_neighborhood'
+        - 'config:field.storage.node.field_requested_timestamp'
         - 'config:field.storage.node.field_service_name'
