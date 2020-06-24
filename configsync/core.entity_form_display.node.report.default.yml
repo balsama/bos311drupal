@@ -9,15 +9,18 @@ dependencies:
     - field.field.node.report.field_longitude
     - field.field.node.report.field_media_url
     - field.field.node.report.field_neighborhood
+    - field.field.node.report.field_requested_datetime
     - field.field.node.report.field_requested_timestamp
     - field.field.node.report.field_service_name
     - field.field.node.report.field_service_request_id
     - field.field.node.report.field_status
     - field.field.node.report.field_status_notes
+    - field.field.node.report.field_updated_datetime
     - field.field.node.report.field_updated_timestamp
     - field.field.node.report.field_zip_code
     - node.type.report
   module:
+    - datetime
     - path
 id: node.report.default
 targetEntityType: node
@@ -78,6 +81,12 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
+  field_requested_datetime:
+    weight: 141
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
   field_requested_timestamp:
     weight: 138
     settings: {  }
@@ -115,6 +124,12 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textarea
+    region: content
+  field_updated_datetime:
+    weight: 142
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
     region: content
   field_updated_timestamp:
     weight: 139

@@ -14,8 +14,9 @@ dependencies:
     - taxonomy.vocabulary.neighborhoods
     - taxonomy.vocabulary.service
   content:
-    - 'taxonomy_term:neighborhoods:2f4605e2-8d5b-444e-94b4-6fc3b415a1cf'
+    - 'taxonomy_term:neighborhoods:a74171dc-13f0-4f2c-a45d-105de61116ac'
   module:
+    - datetime
     - node
     - taxonomy
     - user
@@ -941,52 +942,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           plugin_id: string
-        field_requested_datetime_value:
-          id: field_requested_datetime_value
-          table: node__field_requested_datetime
-          field: field_requested_datetime_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          operator: between
-          value:
-            min: ''
-            max: ''
-            value: ''
-            type: date
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_requested_datetime_value_op
-            label: 'Submitted date/time is between...'
-            description: ''
-            use_operator: false
-            operator: field_requested_datetime_value_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: field_requested_datetime_value
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-            placeholder: ''
-            min_placeholder: 'YYYY-MM-DD HH:M:SS'
-            max_placeholder: 'YYYY-MM-DD HH:M:SS'
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          plugin_id: datetime
         field_service_request_id_value:
           id: field_service_request_id_value
           table: node__field_service_request_id
@@ -1027,8 +982,54 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           plugin_id: string
+        field_requested_datetime_value:
+          id: field_requested_datetime_value
+          table: node__field_requested_datetime
+          field: field_requested_datetime_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: between
+          value:
+            min: ''
+            max: ''
+            value: ''
+            type: date
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_requested_datetime_value_op
+            label: 'Requested Datetime (field_requested_datetime)'
+            description: ''
+            use_operator: false
+            operator: field_requested_datetime_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_requested_datetime_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+            min_placeholder: null
+            max_placeholder: null
+            placeholder: null
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: datetime
       sorts: {  }
-      title: 'Boston 311 Reports'
+      title: 'Search Boston 311 Reports'
       empty:
         area_text_custom:
           id: area_text_custom
@@ -1199,7 +1200,7 @@ display:
           sort_asc_label: Asc
           sort_desc_label: Desc
       menu:
-        type: normal
+        type: none
         title: 'Recent 311 reports'
         description: 'Recent Boston 311 reports'
         expanded: false
@@ -1223,6 +1224,7 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
         - url.query_args
         - 'user.node_grants:view'
         - user.permissions

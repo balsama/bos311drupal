@@ -10,11 +10,13 @@ dependencies:
     - field.field.node.report.field_longitude
     - field.field.node.report.field_media_url
     - field.field.node.report.field_neighborhood
+    - field.field.node.report.field_requested_datetime
     - field.field.node.report.field_requested_timestamp
     - field.field.node.report.field_service_name
     - field.field.node.report.field_service_request_id
     - field.field.node.report.field_status
     - field.field.node.report.field_status_notes
+    - field.field.node.report.field_updated_datetime
     - field.field.node.report.field_updated_timestamp
     - field.field.node.report.field_zip_code
     - node.type.report
@@ -37,10 +39,12 @@ hidden:
   field_longitude: true
   field_media_url: true
   field_neighborhood: true
+  field_requested_datetime: true
   field_requested_timestamp: true
   field_service_name: true
   field_service_request_id: true
   field_status: true
   field_status_notes: true
+  field_updated_datetime: true
   field_updated_timestamp: true
   field_zip_code: true

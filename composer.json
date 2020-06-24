@@ -54,9 +54,6 @@
             ]
         },
         "patches": {
-            "drupal/core": {
-                "2230909 - Simple decimals fail to pass validation": "https://www.drupal.org/files/issues/2020-05-07/drupal_2230909_151.patch"
-            }
         },
         "enable-patching": true
     },
