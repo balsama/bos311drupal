@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e5984c8e2f8de18dec521064e256187d",
+    "content-hash": "f9d47c7854bad8e9681182697f001dba",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1550,7 +1550,8 @@
                     }
                 },
                 "patches_applied": {
-                    "2648950 - [PP-3] Use form element of type date instead textfield when selecting a date in an exposed filter": "https://www.drupal.org/files/issues/2019-10-30/2648950-224.8_8_x.patch"
+                    "2648950 - [PP-3] Use form element of type date instead textfield when selecting a date in an exposed filter": "https://www.drupal.org/files/issues/2019-10-30/2648950-224.8_8_x.patch",
+                    "2230909 - Simple decimals fail to pass validation": "https://www.drupal.org/files/issues/2020-05-07/drupal_2230909_151.patch"
                 }
             },
             "autoload": {
