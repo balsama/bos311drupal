@@ -13,8 +13,6 @@ dependencies:
     - system.menu.main
     - taxonomy.vocabulary.neighborhoods
     - taxonomy.vocabulary.service
-  content:
-    - 'taxonomy_term:neighborhoods:a74171dc-13f0-4f2c-a45d-105de61116ac'
   module:
     - datetime
     - node
@@ -999,7 +997,7 @@ display:
           exposed: true
           expose:
             operator_id: field_requested_datetime_value_op
-            label: 'Requested Datetime (field_requested_datetime)'
+            label: 'Opened date is between'
             description: ''
             use_operator: false
             operator: field_requested_datetime_value_op
