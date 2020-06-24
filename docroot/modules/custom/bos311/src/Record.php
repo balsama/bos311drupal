@@ -212,6 +212,9 @@ class Record
                 elseif ($this->locationData->address->neighbourhood == 'Lower Mills') {
                     $neighborhoodName = 'Dorchester';
                 }
+                elseif ($this->locationData->address->neighbourhood == 'Readville') {
+                    $neighborhoodName = 'Hyde Park';
+                }
             }
         }
 
