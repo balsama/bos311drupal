@@ -308,6 +308,7 @@ class Record
         'Downtown',
         'East Boston',
         'Fenway',
+        'Financial District'
     ];
 
 }
