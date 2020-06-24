@@ -1,4 +1,4 @@
-uuid: 47c9dcba-e1ba-4866-a26a-d378b2841303
+uuid: 32b60d8c-a2d7-4390-90a4-bb827996f1e4
 langcode: en
 status: true
 dependencies:
@@ -22,8 +22,8 @@ dependencies:
     - user
 _core:
   default_config_hash: P7F4DFe8BL31DRVqsvS-ix9KZZqvvaPjZ7zEvGo9yNM
-id: reports
-label: Reports
+id: reports_cards
+label: 'Reports Cards'
 module: node
 description: 'Find and manage content.'
 tag: default
@@ -62,86 +62,21 @@ display:
             first: '« First'
             last: 'Last »'
       style:
-        type: table
+        type: html_list
         options:
           grouping: {  }
-          row_class: ''
+          row_class: 'col-md-6 col-lg-4 col-xl-3 mb-3'
           default_row_class: true
-          override: true
-          sticky: true
-          caption: ''
-          summary: ''
-          description: ''
-          columns:
-            view_node: view_node
-            nid: nid
-            field_description: field_description
-            field_service_name: field_service_name
-            field_address: field_address
-            field_media_url: field_media_url
-            field_neighborhood: field_neighborhood
-            field_requested_timestamp: field_requested_timestamp
-          info:
-            view_node:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            nid:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_description:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_service_name:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_address:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_media_url:
-              sortable: true
-              default_sort_order: desc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_neighborhood:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_requested_timestamp:
-              sortable: true
-              default_sort_order: desc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-          default: field_requested_timestamp
-          empty_table: true
+          type: ul
+          wrapper_class: ''
+          class: 'list-unstyled row'
       row:
         type: fields
+        options:
+          default_field_elements: false
+          inline: {  }
+          separator: ''
+          hide_empty: false
       fields:
         view_node:
           id: view_node
@@ -270,7 +205,7 @@ display:
           group_type: group
           admin_label: ''
           label: Description
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -332,7 +267,7 @@ display:
           group_type: group
           admin_label: ''
           label: Category
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -395,7 +330,7 @@ display:
           group_type: group
           admin_label: ''
           label: Address
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -450,69 +385,6 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        field_media_url:
-          id: field_media_url
-          table: node__field_media_url
-          field: field_media_url
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: ''
-          exclude: false
-          alter:
-            alter_text: true
-            text: '<img src="{{ field_media_url__value }}" height="50px" width="50px" />'
-            make_link: true
-            path: '{{ view_node }}'
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: true
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          plugin_id: field
         field_neighborhood:
           id: field_neighborhood
           table: node__field_neighborhood
@@ -521,7 +393,7 @@ display:
           group_type: group
           admin_label: ''
           label: Neighborhood
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -576,6 +448,69 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
+        field_media_url:
+          id: field_media_url
+          table: node__field_media_url
+          field: field_media_url
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: true
+            text: '<img src="{{ field_media_url__value }}" class="card-img-top" alt="...">'
+            make_link: true
+            path: '{{ view_node }}'
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: '<img src="https://pbs.twimg.com/profile_images/631076340280635396/nH93RnFb_400x400.png" class="card-img-top" alt="...">'
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
         field_requested_timestamp:
           id: field_requested_timestamp
           table: node__field_requested_timestamp
@@ -584,7 +519,7 @@ display:
           group_type: group
           admin_label: ''
           label: Opened
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -641,6 +576,120 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          entity_type: node
+          entity_field: title
+          plugin_id: field
+        nothing:
+          id: nothing
+          table: views
+          field: nothing
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: true
+            text: "<div class=\"card\" style=\"width: 18rem;\">\r\n  {{ field_media_url }}\r\n  <div class=\"card-body\">\r\n    <span class=\"badge badge-info\">{{ field_neighborhood }}</span>\r\n    <h5 class=\"card-title\">{{ title }}</h5>\r\n    <p class=\"card-text\">{{ field_description }}</p>\r\n    <a href=\"/node/{{ nid }}\" class=\"btn btn-primary\">More details</a>\r\n  </div>\r\n  <div class=\"card-footer text-muted\">\r\n    {{ field_requested_timestamp }}\r\n  </div>\r\n</div>"
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: false
+          plugin_id: custom
       filters:
         field_description_value:
           id: field_description_value
@@ -1085,7 +1134,7 @@ display:
         - 'config:field.storage.node.field_service_name'
   page:
     display_options:
-      path: reports-table
+      path: reports
       menu:
         type: normal
         title: 'Search for 311 reports'
