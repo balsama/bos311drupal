@@ -1028,7 +1028,19 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           plugin_id: datetime
-      sorts: {  }
+      sorts:
+        field_requested_timestamp_value:
+          id: field_requested_timestamp_value
+          table: node__field_requested_timestamp
+          field: field_requested_timestamp_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: DESC
+          exposed: false
+          expose:
+            label: Sort
+          plugin_id: standard
       title: 'Search Boston 311 Reports'
       empty:
         area_text_custom:
