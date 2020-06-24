@@ -212,7 +212,19 @@ class Record
                 elseif ($this->locationData->address->neighbourhood == 'Lower Mills') {
                     $neighborhoodName = 'Dorchester';
                 }
+                elseif ($this->locationData->address->neighbourhood == 'Neponset') {
+                    $neighborhoodName = 'Dorchester';
+                }
                 elseif ($this->locationData->address->neighbourhood == 'Readville') {
+                    $neighborhoodName = 'Hyde Park';
+                }
+                elseif ($this->locationData->address->neighbourhood == 'Orient Heights') {
+                    $neighborhoodName = 'East Boston';
+                }
+                elseif ($this->locationData->address->neighbourhood == 'Highland') {
+                    $neighborhoodName = 'West Roxbury';
+                }
+                elseif ($this->locationData->address->neighbourhood == 'Stonybrook Village') {
                     $neighborhoodName = 'Hyde Park';
                 }
             }
