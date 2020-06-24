@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e65387937926772f1d3ed719a43f5fe6",
+    "content-hash": "e5984c8e2f8de18dec521064e256187d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1550,9 +1550,7 @@
                     }
                 },
                 "patches_applied": {
-                    "2230909 - Simple decimals fail to pass validation": "https://www.drupal.org/files/issues/2020-05-07/drupal_2230909_151.patch",
-                    "2648950 - [PP-3] Use form element of type date instead textfield when selecting a date in an exposed filter": "https://www.drupal.org/files/issues/2019-10-30/2648950-224.8_8_x.patch",
-                    "2419131 - [PP-1] #states attribute does not work on #type datetime": "https://www.drupal.org/files/issues/2020-06-04/2419131-datetime-states-152.patch"
+                    "2648950 - [PP-3] Use form element of type date instead textfield when selecting a date in an exposed filter": "https://www.drupal.org/files/issues/2019-10-30/2648950-224.8_8_x.patch"
                 }
             },
             "autoload": {
@@ -6968,7 +6966,6 @@
                 "testing",
                 "xunit"
             ],
-
             "time": "2020-06-22T07:06:58+00:00"
         },
         {

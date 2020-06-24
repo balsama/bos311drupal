@@ -54,6 +54,9 @@
             ]
         },
         "patches": {
+            "drupal/core": {
+                "2648950 - [PP-3] Use form element of type date instead textfield when selecting a date in an exposed filter": "https://www.drupal.org/files/issues/2019-10-30/2648950-224.8_8_x.patch"
+            }
         },
         "enable-patching": true
     },
