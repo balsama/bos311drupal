@@ -72,7 +72,9 @@ class Record
         $values['field_status_notes'] = $this->status_notes;
         $values['field_status'] = $this->status;
         $values['field_requested_timestamp'] = $this->requested_datetime;
+        $values['field_requested_datetime'] = $this->formatIso8601($this->requested_datetime);
         $values['field_updated_timestamp'] = $this->updated_datetime;
+        $values['field_updated_datetime'] = $this->formatIso8601($this->updated_datetime);
         $values['field_address'] = $this->address;
         $values['field_latitude'] = $this->lat;
         $values['field_longitude'] = $this->long;
@@ -95,7 +97,8 @@ class Record
      */
     private function updateReportData($existingReport) {
         $existingReport->field_status_notes = $this->cleanChars($this->status_notes);
-        $existingReport->field_updated_datetime = $this->updated_datetime;
+        $existingReport->field_updated_timestamp = $this->updated_datetime;
+        $existingReport->field_updated_datetime = $this->formatIso8601($this->updated_datetime);
         $existingReport->field_status = $this->status;
 
         return $existingReport;
@@ -256,6 +259,10 @@ class Record
             self::formatDateTime(mktime(time()));
         }
         return $date;
+    }
+
+    private function formatIso8601($timestamp) {
+        return date('Y-m-d\TH:i:s', ($timestamp + 14400));
     }
 
     private function cleanChars($string) {

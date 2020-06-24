@@ -1,7 +1,14 @@
 uuid: b3704058-313c-44ec-b3fa-2984997c88c8
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
 name: Report
 type: report
 description: 'A Boston 311 report.'
