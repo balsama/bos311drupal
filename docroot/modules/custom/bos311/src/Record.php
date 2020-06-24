@@ -209,6 +209,9 @@ class Record
                 if (in_array($this->locationData->address->neighbourhood, $this->neighborhoods)) {
                     $neighborhoodName = $this->locationData->address->neighbourhood;
                 }
+                elseif ($this->locationData->address->neighbourhood == 'Lower Mills') {
+                    $neighborhoodName = 'Dorchester';
+                }
             }
         }
 
