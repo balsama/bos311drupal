@@ -205,6 +205,11 @@ class Record
             elseif (property_exists($this->locationData->address, 'town')) {
                 $neighborhoodName = $neighborhood = $this->locationData->address->town;
             }
+            if (property_exists($this->locationData->address, 'neighbourhood')) {
+                if (in_array($this->locationData->address->neighbourhood, $this->neighborhoods)) {
+                    $neighborhoodName = $this->locationData->address->neighbourhood;
+                }
+            }
         }
 
         if ($neighborhoodName == 'unknown') {
