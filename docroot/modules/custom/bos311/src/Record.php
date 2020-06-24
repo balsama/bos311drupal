@@ -232,6 +232,10 @@ class Record
                 break;
         }
 
+        if ($this->findZip() == '02210') {
+            $neighborhoodName = 'Seaport / Fort Point';
+        }
+
         return $neighborhoodName;
 
     }
