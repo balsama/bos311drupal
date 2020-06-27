@@ -10,7 +10,6 @@ dependencies:
     - field.storage.node.field_requested_timestamp
     - field.storage.node.field_service_name
     - node.type.report
-    - system.menu.main
     - taxonomy.vocabulary.neighborhoods
     - taxonomy.vocabulary.service
   content:
@@ -1099,7 +1098,7 @@ display:
     display_options:
       path: reports-table
       menu:
-        type: normal
+        type: none
         title: 'Search for 311 reports'
         description: ''
         expanded: false
@@ -1113,7 +1112,8 @@ display:
         description: 'Find and manage content'
         menu_name: admin
         weight: -10
-      display_extenders: {  }
+      display_extenders:
+        metatag_display_extender: {  }
       exposed_block: false
       display_description: ''
     display_plugin: page
