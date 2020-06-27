@@ -14,8 +14,8 @@ b4_body_schema: none
 b4_body_bg_schema: none
 b4_navbar_schema: dark
 b4_navbar_bg_schema: dark
-b4_footer_schema: none
-b4_footer_bg_schema: none
+b4_footer_schema: dark
+b4_footer_bg_schema: secondary
 subtheme_folder: ''
 subtheme_name: ''
 subtheme_machine_name: ''
