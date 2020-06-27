@@ -1,0 +1,25 @@
+uuid: edeae6cf-73fd-455d-8ea7-afb075a703bc
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic_block:d101468d-f4ca-40e8-bbed-7d9efaeb5972'
+  module:
+    - block_content
+  theme:
+    - bos311bootstrap
+id: poweredby
+theme: bos311bootstrap
+region: footer
+weight: 0
+provider: null
+plugin: 'block_content:d101468d-f4ca-40e8-bbed-7d9efaeb5972'
+settings:
+  id: 'block_content:d101468d-f4ca-40e8-bbed-7d9efaeb5972'
+  label: 'Powered By'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }
