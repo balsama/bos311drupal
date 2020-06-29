@@ -1095,6 +1095,54 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           plugin_id: string
+        field_media_url_value:
+          id: field_media_url_value
+          table: node__field_media_url
+          field: field_media_url_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: 'not empty'
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_media_url_value_op
+            label: 'Has image'
+            description: ''
+            use_operator: false
+            operator: field_media_url_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_media_url_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+            placeholder: ''
+          is_grouped: true
+          group_info:
+            label: 'Has image'
+            description: ''
+            identifier: field_media_url_value
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: 'Has image'
+                operator: 'not empty'
+                value: ''
+              2:
+                title: 'Doesn''t have image'
+                operator: 'not empty'
+                value: ''
+          plugin_id: string
         field_requested_datetime_value:
           id: field_requested_datetime_value
           table: node__field_requested_datetime
