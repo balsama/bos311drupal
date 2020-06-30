@@ -10282,4 +10282,10 @@ a.tabledrag-handle .handle {
   display: block;
 }
 
+.card-img-top {
+  width: 100%;
+  height: 15vw;
+  object-fit: cover;
+}
+
 /*# sourceMappingURL=style.css.map */

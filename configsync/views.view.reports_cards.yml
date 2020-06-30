@@ -66,7 +66,7 @@ display:
         type: html_list
         options:
           grouping: {  }
-          row_class: 'col-md-6 col-lg-4 col-xl-3 mb-3'
+          row_class: 'col-md-6 col-lg-4 col-xl-4 mb-3'
           default_row_class: true
           type: ul
           wrapper_class: ''
@@ -460,8 +460,8 @@ display:
           exclude: true
           alter:
             alter_text: true
-            text: '<img src="{{ field_media_url__value }}" class="card-img-top" alt="...">'
-            make_link: true
+            text: '<img src="{{ field_media_url__value }}" class="card-img-top rounded" alt="{{ field_description }}">'
+            make_link: false
             path: '{{ view_node }}'
             absolute: false
             external: false
@@ -493,7 +493,7 @@ display:
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
-          empty: '<img src="/logo.png" class="card-img-top" alt="...">'
+          empty: ''
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
@@ -716,7 +716,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<div class=\"card h-100\" style=\"width: 18rem;\">\r\n  {{ field_media_url }}\r\n  <div class=\"card-body d-flex flex-column\">\r\n    <span class=\"badge badge-secondary\">{{ field_neighborhood }}</span>\r\n    <h5 class=\"card-title\">{{ title }}</h5>\r\n    <p class=\"card-text\">{{ field_description }}</p>\r\n    <a href=\"/node/{{ nid }}\" class=\"btn btn-primary mt-auto stretched-link\">More details</a>\r\n  </div>\r\n  <div class=\"card-footer text-muted\">\r\n    {{ field_requested_timestamp }}\r\n  </div>\r\n</div>"
+            text: "<div class=\"card h-100\" style=\"width: 18rem;\">\r\n  {{ field_media_url }}\r\n  <div class=\"card-body\">\r\n    <h4 class=\"card-title\">{{ title }}</h5>\r\n    <span class=\"badge badge-secondary\">{{ field_neighborhood }}</span>\r\n    <p class=\"card-text\">{{ field_description }}</p>\r\n  </div>\r\n  <ul class=\"list-group list-group-flush\">\r\n    <li class=\"list-group-item\">{{ field_requested_timestamp }}</li>\r\n  </ul>\r\n  <div class=\"card-footer text-muted\">\r\n    <a href=\"/node/{{ nid }}\" class=\"btn btn-primary stretched-link\">More details</a>\r\n  </div>\r\n</div>"
             make_link: false
             path: ''
             absolute: false
