@@ -5,4 +5,4 @@ dependencies: {  }
 id: the_only_reasonable_format
 label: 'The only reasonable format'
 locked: false
-pattern: 'Y-m-d G:i:s'
+pattern: 'Y-m-d h:i:s a'

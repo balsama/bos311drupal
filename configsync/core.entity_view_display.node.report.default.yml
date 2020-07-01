@@ -30,7 +30,7 @@ mode: default
 content:
   field_address:
     weight: 3
-    label: above
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
@@ -38,14 +38,14 @@ content:
     region: content
   field_description:
     weight: 2
-    label: above
+    label: hidden
     settings: {  }
     third_party_settings: {  }
     type: basic_string
     region: content
   field_latitude:
     weight: 7
-    label: above
+    label: hidden
     settings:
       thousand_separator: ''
       decimal_separator: .
@@ -56,7 +56,7 @@ content:
     region: content
   field_longitude:
     weight: 8
-    label: above
+    label: hidden
     settings:
       thousand_separator: ''
       decimal_separator: .
@@ -67,7 +67,7 @@ content:
     region: content
   field_media_url:
     weight: 15
-    label: above
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
@@ -75,24 +75,24 @@ content:
     region: content
   field_neighborhood:
     weight: 10
-    label: above
+    label: hidden
     settings:
-      link: true
+      link: false
     third_party_settings: {  }
     type: entity_reference_label
     region: content
   field_requested_datetime:
     weight: 12
-    label: above
+    label: hidden
     settings:
-      format_type: medium
       timezone_override: ''
+      format_type: long
     third_party_settings: {  }
     type: datetime_default
     region: content
   field_requested_timestamp:
     weight: 11
-    label: above
+    label: hidden
     settings:
       date_format: medium
       custom_date_format: ''
@@ -102,7 +102,7 @@ content:
     region: content
   field_service_name:
     weight: 4
-    label: above
+    label: hidden
     settings:
       link: false
     third_party_settings: {  }
@@ -110,7 +110,7 @@ content:
     region: content
   field_service_request_id:
     weight: 5
-    label: above
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
@@ -118,21 +118,21 @@ content:
     region: content
   field_status:
     weight: 6
-    label: above
+    label: hidden
     settings: {  }
     third_party_settings: {  }
     type: list_default
     region: content
   field_status_notes:
     weight: 1
-    label: above
+    label: hidden
     settings: {  }
     third_party_settings: {  }
     type: basic_string
     region: content
   field_updated_datetime:
     weight: 14
-    label: above
+    label: hidden
     settings:
       format_type: medium
       timezone_override: ''
@@ -141,7 +141,7 @@ content:
     region: content
   field_updated_timestamp:
     weight: 13
-    label: above
+    label: hidden
     settings:
       date_format: medium
       custom_date_format: ''
@@ -151,7 +151,7 @@ content:
     region: content
   field_zip_code:
     weight: 9
-    label: above
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }

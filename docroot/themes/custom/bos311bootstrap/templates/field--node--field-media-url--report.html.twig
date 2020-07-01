@@ -55,14 +55,14 @@
 
 {% if label_hidden %}
   {% for item in items %}
-    <img src="{{ item.content }}" />
+    <img src="{{ item.content }}" class="img-fluid" />
   {% endfor %}
 {% else %}
   <div{{ attributes.addClass(classes) }}>
     <div{{ title_attributes.addClass(title_classes) }}>{{ label }}</div>
 
     {% for item in items %}
-      <img src="{{ item.content }}" />
+      <img src="{{ item.content }}" class="img-fluid" />
     {% endfor %}
   </div>
 {% endif %}
