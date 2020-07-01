@@ -10297,4 +10297,8 @@ a.tabledrag-handle .handle {
   object-fit: cover;
 }
 
+.navbar-dark .navbar-brand img {
+  filter: invert(0);
+}
+
 /*# sourceMappingURL=style.css.map */
